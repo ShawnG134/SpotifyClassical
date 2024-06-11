@@ -25,7 +25,9 @@ export default function ModalProvider() {
 
   return (
     <>
-      <Modal></Modal>
+      {/*<Modal title="Test" description="Hi" isOpen onChange={() => {}}>*/}
+      {/*  Testing*/}
+      {/*</Modal>*/}
       <AuthModal />
       {/*<UploadModal />*/}
       {/*<SubscribeModal products={products} />*/}
