@@ -7,13 +7,13 @@ class SpotifyService {
   private constructor() {}
 
   public static getInstance(): SpotifyApi {
-    if (!SpotifyService.instance) {
-      SpotifyService.instance = SpotifyApi.withUserAuthorization(
-        process.env.SPOTIFY_CLIENT_ID,
-        process.env.REDIRECT_URI,
-        scopes,
-      );
-    }
+    // if (!SpotifyService.instance) {
+    //   SpotifyService.instance = SpotifyApi.withUserAuthorization(
+    //     process.env.SPOTIFY_CLIENT_ID,
+    //     process.env.REDIRECT_URI,
+    //     scopes,
+    //   );
+    // }
     return SpotifyService.instance;
   }
 }

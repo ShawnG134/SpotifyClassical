@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import getComposerPiece from "@/Action/getComposerPiece";
+import getComposerPiece from "@/action/getComposerPiece";
 import ComposerList from "@/components/ComposersList";
 
 export const revalidate = 0;
