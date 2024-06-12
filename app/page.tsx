@@ -1,8 +1,12 @@
 import Header from "@/components/Header";
+import getComposerPiece from "@/Action/getComposerPiece";
+import ComposerList from "@/components/ComposersList";
 
 export const revalidate = 0;
 
 export default async function Home() {
+  const composer = await getComposerPiece();
+
   return (
     <div className="text-neutral-400 rounded-lg w-full h-full overflow-hidden overflow-y-auto">
       <Header>
@@ -12,7 +16,12 @@ export default async function Home() {
           </h1>
         </div>
       </Header>
-      <div className="mt-2 mb-7 px-6">{/*<PageContent songs={songs} />*/}</div>
+      <div className="mt-2 mb-7 px-6">
+        <div className="flex justify-between items-center">
+          <h1 className="text-white text-2xl font-semibold">Newest Songs</h1>
+        </div>
+      </div>
+      <ComposerList composers={composer}></ComposerList>
     </div>
   );
 }

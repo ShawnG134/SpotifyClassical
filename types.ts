@@ -1,4 +1,4 @@
-export interface Song {
+export interface Composer {
   id: string;
   user_id: string;
   author: string;
