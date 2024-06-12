@@ -16,6 +16,7 @@
     "@supabase/auth-helpers-react": "^0.5.0",
     "@supabase/auth-ui-react": "^0.4.7",
     "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
     "next": "14.2.3",
     "radix": "^0.0.0",
     "react": "^18",
