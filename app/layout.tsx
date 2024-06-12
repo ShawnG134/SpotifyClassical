@@ -13,6 +13,7 @@ import Sidebar from "@/components/Sidebar";
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import UserProvider from "@/providers/UserProvider";
 import ModalProvider from "@/providers/ModelProvider";
+import AuthModal from "@/components/AuthModal";
 
 const figtree = Figtree({ subsets: ["latin"] });
 
@@ -37,7 +38,6 @@ export default async function RootLayout({
         {/*<ToasterProvider />*/}
         <SupabaseProvider>
           <UserProvider>
-            <ModalProvider />
             <Sidebar>{children}</Sidebar>
             {/*<Player />*/}
           </UserProvider>

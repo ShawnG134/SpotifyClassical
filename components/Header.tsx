@@ -13,6 +13,8 @@ import Button from "./Button";
 import useAuthModal from "@/hooks/useAuthModal";
 import { useUser } from "@/hooks/useUser";
 import usePlayer from "@/hooks/usePlayer";
+import { SpotifyApi } from "@spotify/web-api-ts-sdk";
+import { log } from "node:util";
 
 interface HeaderProps {
   children: React.ReactNode;
@@ -32,12 +34,29 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
     const { error } = await supabaseClient.auth.signOut();
     player.reset();
     router.refresh();
-
     if (error) {
       toast.error(error.message);
     } else {
       toast.success("Logged out!");
     }
+  };
+
+  const login = async () => {
+    const scopes = ["user-top-read", "user-read-private"];
+    const sdk = SpotifyApi.withUserAuthorization(
+      "5e48a213c83748dab5411b7c481d54dd",
+      "https://localhost:3000",
+      scopes,
+    );
+    console.log(
+      sdk.search(
+        "remaster%20track:Doxy%20artist:Miles%20Davis",
+        ["album"],
+        "ES",
+        10,
+        5,
+      ),
+    );
   };
 
   return (
@@ -86,7 +105,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
               <div>
                 <Button
                   className="bg-transparent text-neutral-300 font-medium"
-                  onClick={authModal.onOpen}
+                  onClick={login}
                 >
                   Sign up
                 </Button>

@@ -1,6 +1,4 @@
-import Header from "../../components/Header";
-import ListItem from "../../components/ListItem";
-import PageContent from "./components/PageContent";
+import Header from "@/components/Header";
 
 export const revalidate = 0;
 
