@@ -15,7 +15,7 @@ To run Spotify Classical locally:
 
 1. Clone the repository:
    ```
-   git clone [repository-url]
+   git clone https://github.com/ShawnG134/SpotifyClassical
    ```
 2. Install dependencies:
    ```
