@@ -3,6 +3,7 @@ import { Figtree } from "next/font/google";
 
 import Sidebar from "@/components/Sidebar";
 import UserProvider from "@/providers/UserProvider";
+import { SpotifyProvider } from "@/context/SpotifyContent";
 
 const figtree = Figtree({ subsets: ["latin"] });
 
@@ -23,7 +24,9 @@ export default async function RootLayout({
       <body className={figtree.className}>
         {/*<ToasterProvider />*/}
         <UserProvider>
-          <Sidebar>{children}</Sidebar>
+          <SpotifyProvider>
+            <Sidebar>{children}</Sidebar>
+          </SpotifyProvider>
           {/*<Player />*/}
         </UserProvider>
       </body>
