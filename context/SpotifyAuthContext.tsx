@@ -1,48 +1,31 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
+"use client";
+import React, { createContext, useState, useContext, ReactNode } from "react";
 
-interface SpotifyContextProps {
+interface SpotifyAuthContextType {
   accessToken: string | null;
   setAccessToken: (token: string) => void;
 }
 
-const SpotifyContext = createContext<SpotifyContextProps | undefined>(
+const SpotifyAuthContext = createContext<SpotifyAuthContextType | undefined>(
   undefined,
 );
 
-export const SpotifyProvider = ({ children }: { children: ReactNode }) => {
+export const SpotifyAuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem("spotify_access_token");
-    if (storedToken) {
-      setAccessToken(storedToken);
-    }
-  }, []);
-
-  const handleSetAccessToken = (token: string) => {
-    setAccessToken(token);
-    localStorage.setItem("spotify_access_token", token);
-  };
-
   return (
-    <SpotifyContext.Provider
-      value={{ accessToken, setAccessToken: handleSetAccessToken }}
-    >
+    <SpotifyAuthContext.Provider value={{ accessToken, setAccessToken }}>
       {children}
-    </SpotifyContext.Provider>
+    </SpotifyAuthContext.Provider>
   );
 };
 
-export const useSpotify = () => {
-  const context = useContext(SpotifyContext);
-  if (context === undefined) {
-    throw new Error("useSpotify must be used within a SpotifyProvider");
+export const useSpotifyAuth = (): SpotifyAuthContextType => {
+  const context = useContext(SpotifyAuthContext);
+  if (!context) {
+    throw new Error("useSpotifyAuth must be used within a SpotifyAuthProvider");
   }
   return context;
 };

@@ -1,22 +1,31 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useSpotifyAuth } from "@/context/SpotifyAuthContext";
 
 const UserProfile = () => {
-  const [profile, setProfile] = useState(null);
+  const { accessToken } = useSpotifyAuth();
+  const [profile, setProfile] = useState<any>(null);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      const response = await fetch("/api/profile");
-      if (response.ok) {
-        const data = await response.json();
-        setProfile(data);
-      } else {
-        console.error("Failed to fetch profile");
+    const fetchUserProfile = async () => {
+      if (accessToken) {
+        const response = await fetch("/api/profile", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        console.log(accessToken);
+        if (response.ok) {
+          const data = await response.json();
+          setProfile(data);
+        } else {
+          console.error("Failed to fetch profile");
+        }
       }
     };
 
-    fetchProfile();
-  }, []);
+    fetchUserProfile();
+  }, [accessToken]);
 
   if (!profile) {
     return <div>Loading...</div>;

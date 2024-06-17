@@ -14,6 +14,7 @@ import Button from "./Button";
 import useAuthModal from "@/hooks/useAuthModal";
 import { useUser } from "@/hooks/useUser";
 import usePlayer from "@/hooks/usePlayer";
+import { useSpotifyAuth } from "@/context/SpotifyAuthContext";
 
 interface HeaderProps {
   children: React.ReactNode;
@@ -27,11 +28,13 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const searchParams = useSearchParams();
   const supabaseClient = useSupabaseClient();
   const { user } = useUser();
+  const { setAccessToken } = useSpotifyAuth();
 
   useEffect(() => {
+    // @ts-ignore
     const code = searchParams.get("code");
+    // @ts-ignore
     const state = searchParams.get("state");
-
     if (code) {
       fetchAccessToken(code);
     }
@@ -49,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
 
       if (response.ok) {
         const data = await response.json();
-        // Store the access token as needed
+        setAccessToken(data.access_token);
         console.log("Access Token:", data.access_token);
         toast.success("Successfully logged in with Spotify!");
         router.push("/");

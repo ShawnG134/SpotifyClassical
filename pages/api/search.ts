@@ -5,14 +5,23 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const accessToken = req.headers.authorization?.split(" ")[1];
+  const { piece, artist } = req.query;
 
   if (!accessToken) {
     res.status(401).json({ error: "Unauthorized" });
     return;
   }
 
+  if (!piece || !artist) {
+    res
+      .status(400)
+      .json({ error: "Missing required query parameters: piece and artist" });
+    return;
+  }
+
   try {
-    const response = await fetch("https://api.spotify.com/v1/me", {
+    const query = `q=${encodeURIComponent(piece)}%20artist:${encodeURIComponent(artist)}&type=track`;
+    const response = await fetch(`https://api.spotify.com/v1/search?${query}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -25,7 +34,7 @@ export default async function handler(
       res.status(response.status).json({ error: response.statusText });
     }
   } catch (error) {
-    console.error("Error fetching profile:", error);
-    res.status(500).json({ error: "Failed to fetch profile" });
+    console.error("Error searching pieces:", error);
+    res.status(500).json({ error: "Failed to search pieces" });
   }
 }

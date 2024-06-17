@@ -24,7 +24,7 @@ export default async function Home() {
         </div>
       </div>
       <ComposerList composers={composer}></ComposerList>
-      {/*<UserProfile></UserProfile>*/}
+      <UserProfile></UserProfile>
     </div>
   );
 }

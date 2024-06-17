@@ -32,8 +32,6 @@ export default async function handler(
     const response = await axios(authOptions);
     const access_token = response.data.access_token;
     console.log(access_token);
-    // Store the access token securely (e.g., in a session or database)
-
     res.status(200).json({ access_token });
   } catch (error) {
     console.error("Error fetching access token:", error);
