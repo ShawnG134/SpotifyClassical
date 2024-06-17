@@ -2,8 +2,8 @@ import {
   createContext,
   useContext,
   useState,
-  ReactNode,
   useEffect,
+  ReactNode,
 } from "react";
 
 interface SpotifyContextProps {
@@ -19,18 +19,21 @@ export const SpotifyProvider = ({ children }: { children: ReactNode }) => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchAccessToken = async () => {
-      const response = await fetch("/api/token");
-      if (response.ok) {
-        const data = await response.json();
-        setAccessToken(data.access_token);
-      }
-    };
-    fetchAccessToken();
+    const storedToken = localStorage.getItem("spotify_access_token");
+    if (storedToken) {
+      setAccessToken(storedToken);
+    }
   }, []);
 
+  const handleSetAccessToken = (token: string) => {
+    setAccessToken(token);
+    localStorage.setItem("spotify_access_token", token);
+  };
+
   return (
-    <SpotifyContext.Provider value={{ accessToken, setAccessToken }}>
+    <SpotifyContext.Provider
+      value={{ accessToken, setAccessToken: handleSetAccessToken }}
+    >
       {children}
     </SpotifyContext.Provider>
   );
@@ -38,7 +41,7 @@ export const SpotifyProvider = ({ children }: { children: ReactNode }) => {
 
 export const useSpotify = () => {
   const context = useContext(SpotifyContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error("useSpotify must be used within a SpotifyProvider");
   }
   return context;

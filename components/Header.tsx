@@ -1,6 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
@@ -13,8 +14,6 @@ import Button from "./Button";
 import useAuthModal from "@/hooks/useAuthModal";
 import { useUser } from "@/hooks/useUser";
 import usePlayer from "@/hooks/usePlayer";
-import { SpotifyApi } from "@spotify/web-api-ts-sdk";
-import { log } from "node:util";
 
 interface HeaderProps {
   children: React.ReactNode;
@@ -24,11 +23,44 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const player = usePlayer();
   const authModal = useAuthModal();
-
   const router = useRouter();
-
+  const searchParams = useSearchParams();
   const supabaseClient = useSupabaseClient();
   const { user } = useUser();
+
+  useEffect(() => {
+    const code = searchParams.get("code");
+    const state = searchParams.get("state");
+
+    if (code) {
+      fetchAccessToken(code);
+    }
+  }, [searchParams]);
+
+  const fetchAccessToken = async (code: string) => {
+    try {
+      const response = await fetch("/api/getAccessCode", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ code }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Store the access token as needed
+        console.log("Access Token:", data.access_token);
+        toast.success("Successfully logged in with Spotify!");
+        router.push("/");
+      } else {
+        toast.error("Failed to log in with Spotify.");
+      }
+    } catch (error) {
+      console.error("Error fetching access token:", error);
+      toast.error("An error occurred.");
+    }
+  };
 
   const handleLogout = async () => {
     const { error } = await supabaseClient.auth.signOut();
@@ -41,22 +73,8 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
     }
   };
 
-  const login = async () => {
-    const scopes = ["user-top-read", "user-read-private"];
-    const sdk = SpotifyApi.withUserAuthorization(
-      "5e48a213c83748dab5411b7c481d54dd",
-      "https://localhost:3000",
-      scopes,
-    );
-    console.log(
-      sdk.search(
-        "remaster%20track:Doxy%20artist:Miles%20Davis",
-        ["album"],
-        "ES",
-        10,
-        5,
-      ),
-    );
+  const login = () => {
+    window.location.href = "/api/login";
   };
 
   return (
@@ -103,18 +121,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
           ) : (
             <>
               <div>
-                <Button
-                  className="bg-transparent text-neutral-300 font-medium"
-                  onClick={login}
-                >
-                  Sign up
-                </Button>
-              </div>
-              <div>
-                <Button
-                  className="bg-white px-6 py-2"
-                  onClick={authModal.onOpen}
-                >
+                <Button className="bg-white px-6 py-2" onClick={login}>
                   Log in
                 </Button>
               </div>

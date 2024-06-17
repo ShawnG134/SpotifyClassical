@@ -1,43 +1,46 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { SpotifyApi } from "@spotify/web-api-ts-sdk";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
-// Define the type for your context state
-interface SpotifyContextState {
-  sdk: SpotifyApi | null;
+interface AuthContextType {
+  accessToken: string | null;
+  setAccessToken: (token: string | null) => void;
 }
 
-// Create the context
-const SpotifyContext = createContext<SpotifyContextState | undefined>(
+const SpotifyAuthContext = createContext<AuthContextType | undefined>(
   undefined,
 );
 
-// Export a custom hook to access the Spotify SDK
-export const useSpotify = () => {
-  const context = useContext(SpotifyContext);
-  if (context === undefined) {
-    throw new Error("useSpotify must be used within a SpotifyProvider");
-  }
-  return context.sdk;
-};
+export const SpotifyAuthProvider = ({ children }: { children: ReactNode }) => {
+  const [accessToken, setAccessToken] = useState<string | null>(null);
 
-// Create a Provider component
-export const SpotifyProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [sdk, setSdk] = useState<SpotifyApi | null>(null);
-
+  // Listen to changes in access token and store in localStorage
   useEffect(() => {
-    const spotifySdk = SpotifyApi.withUserAuthorization(
-      "5e48a213c83748dab5411b7c481d54dd",
-      "https://localhost:3000",
-      ["user-read-private", "user-read-email"], // Example scopes
-    );
-    setSdk(spotifySdk);
+    const token = localStorage.getItem("spotifyAccessToken");
+    if (token) setAccessToken(token);
   }, []);
 
+  useEffect(() => {
+    if (accessToken) {
+      localStorage.setItem("spotifyAccessToken", accessToken);
+    }
+  }, [accessToken]);
+
   return (
-    <SpotifyContext.Provider value={{ sdk }}>
+    <SpotifyAuthContext.Provider value={{ accessToken, setAccessToken }}>
       {children}
-    </SpotifyContext.Provider>
+    </SpotifyAuthContext.Provider>
   );
+};
+
+export const useSpotifyAuth = () => {
+  const context = useContext(SpotifyAuthContext);
+  if (context === undefined) {
+    throw new Error("useSpotifyAuth must be used within a SpotifyAuthProvider");
+  }
+  return context;
 };

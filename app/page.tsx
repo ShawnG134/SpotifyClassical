@@ -1,6 +1,8 @@
 import Header from "@/components/Header";
 import getComposerPiece from "@/action/getComposerPiece";
 import ComposerList from "@/components/ComposersList";
+import ProfileDisplay from "@/components/profileDisplay";
+import UserProfile from "@/components/profileDisplay";
 
 export const revalidate = 0;
 
@@ -22,6 +24,7 @@ export default async function Home() {
         </div>
       </div>
       <ComposerList composers={composer}></ComposerList>
+      {/*<UserProfile></UserProfile>*/}
     </div>
   );
 }

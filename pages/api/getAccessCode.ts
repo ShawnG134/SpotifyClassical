@@ -2,26 +2,15 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import querystring from "querystring";
 
-const client_id = "CLIENT_ID";
-const client_secret = "CLIENT_SECRET";
-const redirect_uri = "http://localhost:3000/api/callback";
+const client_id = process.env.SPOTIFY_CLIENT_ID;
+const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+const redirect_uri = "http://localhost:3000";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const code = req.query.code || null;
-  const state = req.query.state || null;
-
-  if (state === null) {
-    res.redirect(
-      "/?" +
-        querystring.stringify({
-          error: "state_mismatch",
-        }),
-    );
-    return;
-  }
+  const { code } = req.body;
 
   try {
     const authOptions = {
@@ -42,14 +31,12 @@ export default async function handler(
 
     const response = await axios(authOptions);
     const access_token = response.data.access_token;
+    console.log(access_token);
+    // Store the access token securely (e.g., in a session or database)
 
-    res.redirect(
-      "/?" +
-        querystring.stringify({
-          access_token: access_token,
-        }),
-    );
+    res.status(200).json({ access_token });
   } catch (error) {
+    console.error("Error fetching access token:", error);
     res.status(500).json({ error: "Failed to fetch access token" });
   }
 }
