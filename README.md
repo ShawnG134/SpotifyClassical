@@ -1,14 +1,18 @@
-# Spotify Classical
-
-## Overview
-
-Spotify Classical is a web application that replicates the functionality of Apple Classical, using Next.js, React, and Tailwind CSS for development. It connects to the Spotify API to access a range of classical music tracks.
-
+# Spotify Classical Player
 ## Motivation
+I was deeply intrigued by the design and functionality of Apple Classical. Specifically, as a fan of Gabriel Fauré, whose piano works I highly recommend, I often found it difficult to locate his recordings. (Clearly not many people appreciate his piano works). Apple Music elegantly resolves this issue, allowing me to enjoy numerous different versions of his compositions.
 
-This project is motivated by the features of Apple Classical and a personal interest in classical music. It aims to provide a similar experience for users who prefer Spotify for their music streaming needs.
+Unfortunately, Spotify does not natively support a similar feature. As a result, I decided to develop my own Spotify Classical Player using Next.js.
 
+## What's this project for
+This project is designed to inspire enthusiasts of classical music to develop similar applications for classical music.
+It is aimed at those who appreciate Apple Classical but prefer not to switch to Apple Music.
 
+## Where did I get my dataset?
+I acquired the catalogue of classical composers and their pieces 100% legally from the IMSLP database, which provides a comprehensive list of information about the pieces of various composers. After transforming using Pandas, I managed to import this into Supabase, and then retrieve it in my Next.js App.
+
+## Before you clone
+Due to the nature of Spotify API, you must have a personal Spotify App account, which requires a client_id and client_secret to run this app.
 ## Getting Started
 
 To run Spotify Classical locally:
