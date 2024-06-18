@@ -2,8 +2,6 @@ import "./globals.css";
 import { Figtree } from "next/font/google";
 
 import Sidebar from "@/components/Sidebar";
-import UserProvider from "@/providers/UserProvider";
-import { AccessTokenProvider } from "@/context/AccessTokenContext";
 import React from "react";
 import { SpotifyAuthProvider } from "@/context/SpotifyAuthContext";
 
@@ -25,12 +23,10 @@ export default async function RootLayout({
     <html lang="en">
       <body className={figtree.className}>
         {/*<ToasterProvider />*/}
-        <UserProvider>
-          <SpotifyAuthProvider>
-            <Sidebar>{children}</Sidebar>
-          </SpotifyAuthProvider>
-          {/*<Player />*/}
-        </UserProvider>
+        <SpotifyAuthProvider>
+          <Sidebar>{children}</Sidebar>
+        </SpotifyAuthProvider>
+        {/*<Player />*/}
       </body>
     </html>
   );

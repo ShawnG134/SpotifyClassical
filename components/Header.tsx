@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 
 import Button from "./Button";
 import useAuthModal from "@/hooks/useAuthModal";
-import { useUser } from "@/hooks/useUser";
+
 import usePlayer from "@/hooks/usePlayer";
 import { useSpotifyAuth } from "@/context/SpotifyAuthContext";
 
@@ -27,7 +27,6 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabaseClient = useSupabaseClient();
-  const { user } = useUser();
   const { setAccessToken } = useSpotifyAuth();
 
   useEffect(() => {
@@ -111,25 +110,15 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
           </button>
         </div>
         <div className="flex justufy-between items-center gap-x-4">
-          {user ? (
-            <div className="flex gap-x-4 items-center">
-              <Button onClick={handleLogout}>Logout</Button>
-              <Button
-                className="bg-white"
-                onClick={() => router.push("/account")}
-              >
-                <FaUserAlt />
+          (
+          <>
+            <div>
+              <Button className="bg-white px-6 py-2" onClick={login}>
+                Log in
               </Button>
             </div>
-          ) : (
-            <>
-              <div>
-                <Button className="bg-white px-6 py-2" onClick={login}>
-                  Log in
-                </Button>
-              </div>
-            </>
-          )}
+          </>
+          )
         </div>
       </div>
       {children}

@@ -2,34 +2,9 @@ import { TbPlaylist } from "react-icons/tb";
 import { AiOutlinePlus } from "react-icons/ai";
 
 import useAuthModal from "@/hooks/useAuthModal";
-import { useUser } from "@/hooks/useUser";
-// import useUploadModal from "@/hooks/useUploadModal";
-import { Composer } from "@/types";
-// // import MediaItem from "./MediaItem"
-// import useOnPlay from "@/hooks/useOnPlay";
-// import useSubscribeModal from "@/hooks/useSubscribeModal";
-
-// interface LibraryProps {
-//   songs: Song[];
-// }
 
 const Library = () => {
-  // const subscribeModal = useSubscribeModal();
   const authModal = useAuthModal();
-  // const uploadModal = useUploadModal();
-  const { user, subscription } = useUser();
-
-  // const onPlay = useOnPlay(songs);
-
-  const onClick = () => {
-    if (!user) {
-      return authModal.onOpen();
-    }
-    // if (!subscription) {
-    //   return subscribeModal.onOpen();
-    // }
-    // return uploadModal.onOpen();
-  };
 
   return (
     <div className="flex flex-col ">
@@ -40,7 +15,7 @@ const Library = () => {
         </div>
         <AiOutlinePlus
           className="text-neutral-400 cursor-pointer hover:text-white transition"
-          onClick={onClick}
+          onClick={() => {}}
           size={20}
         />
       </div>
