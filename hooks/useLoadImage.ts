@@ -1,8 +1,8 @@
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
-import { Composer } from "@/types";
+import { Song } from "@/types";
 
-const useLoadImage = (song: Composer) => {
+const useLoadImage = (song: Song) => {
   const supabaseClient = useSupabaseClient();
 
   if (!song) {

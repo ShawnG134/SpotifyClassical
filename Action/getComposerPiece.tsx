@@ -1,7 +1,7 @@
 import React from "react";
-import { Composer } from "@/types";
+import { Song } from "@/types";
 
-const getComposerPiece = async (): Promise<Composer[]> => {
+const getComposerPiece = async (): Promise<Song[]> => {
   return [];
 };
 

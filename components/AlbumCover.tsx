@@ -3,12 +3,12 @@
 import Image from "next/image";
 
 import useLoadImage from "@/hooks/useLoadImage";
-import { Composer } from "@/types";
+import { Song } from "@/types";
 
 // import PlayButton from "./PlayButton"
 
 interface AlbumCoverProp {
-  data: Composer;
+  data: Song;
   onClick: (id: string) => void;
 }
 

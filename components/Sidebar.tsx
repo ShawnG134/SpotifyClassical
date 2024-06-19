@@ -1,24 +1,23 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { HiHome } from "react-icons/hi";
 import { BiSearch } from "react-icons/bi";
 import { twMerge } from "tailwind-merge";
 
 import Box from "./Box";
 import SidebarItem from "./SidebarItem";
-// import Library from "./Library"
-import { Composer } from "@/types";
+import Library from "./Library";
+import { Song } from "@/types";
 import usePlayer from "@/hooks/usePlayer";
-import Library from "@/components/Library";
 
 interface SidebarProps {
   children: React.ReactNode;
-  // songs: Song[]
+  songs: Song[];
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ children }) => {
+const Sidebar: React.FC<SidebarProps> = ({ children, songs }) => {
   const pathname = usePathname();
   const player = usePlayer();
 
@@ -27,17 +26,18 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
       {
         icon: HiHome,
         label: "Home",
-        active: pathname !== "/search",
+        active: pathname !== "/Search",
         href: "/",
       },
       {
         icon: BiSearch,
         label: "Search",
-        active: pathname === "/search",
-        href: "/search",
+        active: pathname === "/Search",
+        href: "/Search",
       },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     ],
-    [],
+    [pathname],
   );
 
   return (

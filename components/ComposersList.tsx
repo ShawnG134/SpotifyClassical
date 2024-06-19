@@ -1,10 +1,10 @@
 "use client";
 
-import { Composer } from "@/types";
+import { Song } from "@/types";
 import AlbumCover from "@/components/AlbumCover";
 
 interface PageContentProps {
-  composers: Composer[];
+  composers: Song[];
 }
 
 const PageContent: React.FC<PageContentProps> = ({ composers }) => {
