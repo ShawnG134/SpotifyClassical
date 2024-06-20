@@ -14,10 +14,9 @@ import usePlayer from "@/hooks/usePlayer";
 
 interface SidebarProps {
   children: React.ReactNode;
-  songs: Song[];
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ children, songs }) => {
+const Sidebar: React.FC<SidebarProps> = ({ children }) => {
   const pathname = usePathname();
   const player = usePlayer();
 

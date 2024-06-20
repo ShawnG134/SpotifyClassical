@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import React from "react";
 
 import SearchInput from "@/components/SearchInput";
+import SearchContent from "@/app/Search/searchContent";
 
 interface SearchProps {
   searchParams: {
@@ -9,7 +10,9 @@ interface SearchProps {
   };
 }
 
-export default async function Search({ searchParams }: SearchProps) {
+export default async function Page({ searchParams }: SearchProps) {
+  // const songs = await composerSearch(searchParams.title);
+
   return (
     <div className="bg-neutral-900 rounded-lg w-full h-full overflow-hidden overflow-y-auto">
       <Header className="from-bg-neutral-900">
@@ -18,12 +21,7 @@ export default async function Search({ searchParams }: SearchProps) {
           <SearchInput />
         </div>
       </Header>
-      {/*<SearchContent songs={[]} />*/}
+      <SearchContent songs={[]} />
     </div>
   );
 }
-// const Page = () => {
-//   return <div>Search</div>;
-// };
-//
-// export default Page;

@@ -23,7 +23,6 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const player = usePlayer();
-  const authModal = useAuthModal();
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabaseClient = useSupabaseClient();
