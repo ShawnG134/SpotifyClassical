@@ -7,12 +7,6 @@ export interface Song {
   image_path: string;
 }
 
-export interface Composer {
-  id: string;
-  user_id: string;
-  image_path: string;
-}
-
 export type ClassicalPiece = {
   id: number;
   Composer: string;

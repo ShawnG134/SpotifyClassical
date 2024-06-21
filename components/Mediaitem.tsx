@@ -3,24 +3,24 @@
 import Image from "next/image";
 
 import useLoadImage from "@/hooks/useLoadImage";
-import { Song } from "@/types";
+import { ClassicalPiece, Song } from "@/types";
 import usePlayer from "@/hooks/usePlayer";
 
 interface MediaItemProps {
-  data: Song;
+  data: ClassicalPiece;
   onClick?: (id: string) => void;
 }
 
 const MediaItem: React.FC<MediaItemProps> = ({ data, onClick }) => {
   const player = usePlayer();
-  const imageUrl = useLoadImage(data);
+  // const imageUrl = useLoadImage(data);
 
   const handleClick = () => {
     if (onClick) {
-      return onClick(data.id);
+      console.log(data.WorkTitle);
     }
-
-    return player.setId(data.id);
+    //
+    // return player.setId(data.id);
   };
 
   return (
@@ -46,16 +46,20 @@ const MediaItem: React.FC<MediaItemProps> = ({ data, onClick }) => {
           overflow-hidden
         "
       >
-        <Image
-          fill
-          src={imageUrl || "/images/liked.png"}
-          alt="MediaItem"
-          className="object-cover"
-        />
+        {/*<Image*/}
+        {/*  fill*/}
+        {/*  src={imageUrl || "/images/liked.png"}*/}
+        {/*  alt="MediaItem"*/}
+        {/*  className="object-cover"*/}
+        {/*/>*/}
       </div>
-      <div className="flex flex-col gap-y-1 overflow-hidden">
-        <p className="text-white truncate">{data.title}</p>
-        <p className="text-neutral-400 text-sm truncate">By {data.author}</p>
+      <div className="flex flex-col gap-y-1">
+        <div className="flex flex-col gap-y-1 overflow-hidden">
+          <p className="text-white truncate">{data.WorkTitle}</p>
+          <p className="text-neutral-400 text-sm truncate">
+            By {data.Composer}
+          </p>
+        </div>
       </div>
     </div>
   );

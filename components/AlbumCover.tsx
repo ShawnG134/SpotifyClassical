@@ -3,21 +3,21 @@
 import Image from "next/image";
 
 import useLoadImage from "@/hooks/useLoadImage";
-import { Song } from "@/types";
+import { ClassicalPiece, Song } from "@/types";
 
 // import PlayButton from "./PlayButton"
 
 interface AlbumCoverProp {
-  data: Song;
+  data: ClassicalPiece;
   onClick: (id: string) => void;
 }
 
 const AlbumCover: React.FC<AlbumCoverProp> = ({ data, onClick }) => {
-  const imagePath = useLoadImage(data);
+  // const imagePath = useLoadImage(data);
 
   return (
     <div
-      onClick={() => onClick(data.id)}
+      // onClick={() => onClick(data.id)}
       className="
         relative
         group
@@ -45,15 +45,15 @@ const AlbumCover: React.FC<AlbumCoverProp> = ({ data, onClick }) => {
           overflow-hidden
         "
       >
-        <Image
-          className="object-cover"
-          src={imagePath || "/images/music-placeholder.png"}
-          fill
-          alt="Image"
-        />
+        {/*<Image*/}
+        {/*  className="object-cover"*/}
+        {/*  src={imagePath || "/images/music-placeholder.png"}*/}
+        {/*  fill*/}
+        {/*  alt="Image"*/}
+        {/*/>*/}
       </div>
       <div className="flex flex-col items-start w-full pt-4 gap-y-1">
-        <p className="font-semibold truncate w-full">{data.title}</p>
+        <p className="font-semibold truncate w-full">{data.WorkTitle}</p>
         <p
           className="
             text-neutral-400
@@ -63,7 +63,7 @@ const AlbumCover: React.FC<AlbumCoverProp> = ({ data, onClick }) => {
             truncate
           "
         >
-          By {data.author}
+          By {data.Composer}
         </p>
       </div>
       <div

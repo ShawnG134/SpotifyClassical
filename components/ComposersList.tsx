@@ -1,13 +1,13 @@
 "use client";
 
-import { Song } from "@/types";
+import { ClassicalPiece, Song } from "@/types";
 import AlbumCover from "@/components/AlbumCover";
 
 interface PageContentProps {
-  composers: Song[];
+  composers: ClassicalPiece[];
 }
 
-const PageContent: React.FC<PageContentProps> = ({ composers }) => {
+const ComposerList: React.FC<PageContentProps> = ({ composers }) => {
   if (composers.length === 0) {
     return <div className="mt-4 text-neutral-400">No songs available.</div>;
   }
@@ -33,4 +33,4 @@ const PageContent: React.FC<PageContentProps> = ({ composers }) => {
   );
 };
 
-export default PageContent;
+export default ComposerList;

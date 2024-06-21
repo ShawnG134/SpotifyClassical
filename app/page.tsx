@@ -1,13 +1,22 @@
+"use client";
+import { useEffect, useState } from "react";
 import Header from "@/components/Header";
-import getComposerPiece from "@/action/getComposerPiece";
-import ComposerList from "@/components/ComposersList";
-import ProfileDisplay from "@/components/profileDisplay";
+import { getClassicalPiecesByTitle } from "@/action/getClassicalPieceByTitle";
 import UserProfile from "@/components/profileDisplay";
+import ComposerList from "@/components/ComposersList";
+import { ClassicalPiece } from "@/types";
 
-export const revalidate = 0;
+export default function Home() {
+  const [composers, setComposers] = useState<ClassicalPiece[]>([]);
 
-export default async function Home() {
-  const composer = await getComposerPiece();
+  useEffect(() => {
+    const fetchComposers = async () => {
+      const fetchedComposers = await getClassicalPiecesByTitle("");
+      setComposers(fetchedComposers);
+    };
+
+    fetchComposers();
+  }, []);
 
   return (
     <div className="text-neutral-400 rounded-lg w-full h-full overflow-hidden overflow-y-auto">
@@ -23,7 +32,7 @@ export default async function Home() {
           <h1 className="text-white text-2xl font-semibold">Newest Songs</h1>
         </div>
       </div>
-      <ComposerList composers={composer}></ComposerList>
+      <ComposerList composers={composers}></ComposerList>
       <UserProfile></UserProfile>
     </div>
   );

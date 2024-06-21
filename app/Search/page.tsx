@@ -3,6 +3,7 @@ import React from "react";
 
 import SearchInput from "@/components/SearchInput";
 import SearchContent from "@/app/Search/searchContent";
+import { getClassicalPiecesByTitle } from "@/action/getClassicalPieceByTitle";
 
 interface SearchProps {
   searchParams: {
@@ -11,8 +12,7 @@ interface SearchProps {
 }
 
 export default async function Page({ searchParams }: SearchProps) {
-  // const songs = await composerSearch(searchParams.title);
-
+  const songs = await getClassicalPiecesByTitle(searchParams.title);
   return (
     <div className="bg-neutral-900 rounded-lg w-full h-full overflow-hidden overflow-y-auto">
       <Header className="from-bg-neutral-900">
@@ -21,7 +21,7 @@ export default async function Page({ searchParams }: SearchProps) {
           <SearchInput />
         </div>
       </Header>
-      <SearchContent songs={[]} />
+      <SearchContent songs={songs} />
     </div>
   );
 }

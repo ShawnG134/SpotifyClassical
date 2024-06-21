@@ -1,11 +1,11 @@
 "use client";
 
-import { Song } from "@/types";
+import { ClassicalPiece, Song } from "@/types";
 import React from "react";
 import MediaItem from "@/components/Mediaitem";
 
 interface SearchContentProps {
-  songs: Song[];
+  songs: ClassicalPiece[];
 }
 
 const SearchContent: React.FC<SearchContentProps> = ({ songs }) => {
@@ -28,10 +28,10 @@ const SearchContent: React.FC<SearchContentProps> = ({ songs }) => {
 
   return (
     <div className="flex flex-col gap-y-2 w-full px-6">
-      {songs.map((song: Song) => (
-        <div key={song.id} className="flex items-center gap-x-4 w-full">
+      {songs.map((piece: ClassicalPiece) => (
+        <div key={piece.id} className="flex items-center gap-x-4 w-full">
           <div className="flex-1">
-            <MediaItem onClick={(id: string) => {}} data={song} />
+            <MediaItem onClick={(id: string) => {}} data={piece} />
           </div>
         </div>
       ))}
