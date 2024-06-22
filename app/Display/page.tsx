@@ -55,7 +55,7 @@ const FilterButton = styled.button`
 const DisplayComposer = () => {
   const [composerName, setComposerName] = useState("");
   const [composerPieces, setComposerPieces] = useState<ClassicalPiece[]>([]);
-  const [allPieces, setAllPieces] = useState<ClassicalPiece[]>([]);
+  const [currentPiece, setCurrentPiece] = useState<ClassicalPiece[]>([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -65,15 +65,17 @@ const DisplayComposer = () => {
         const pieces = await getClassicalPiecesByComposer(name);
         setComposerName(name);
         setComposerPieces(pieces);
-        setAllPieces(pieces);
+        setCurrentPiece(pieces);
       }
     }
     fetchData();
   }, []);
 
-  const filterPieces = (type) => {
-    const filteredPieces = allPieces.filter((piece) => piece.type === type);
-    setComposerPieces(filteredPieces);
+  const filterPieces = (type: string) => {
+    const filteredPieces = composerPieces.filter((piece) =>
+      piece.WorkTitle.includes(type),
+    );
+    setCurrentPiece(filteredPieces);
   };
 
   return (
@@ -96,7 +98,7 @@ const DisplayComposer = () => {
             </FilterButton>
           </ButtonContainer>
           <PieceList>
-            {composerPieces.map((piece, index) => (
+            {currentPiece.map((piece, index) => (
               <PieceItem key={index}>{piece.WorkTitle}</PieceItem>
             ))}
           </PieceList>

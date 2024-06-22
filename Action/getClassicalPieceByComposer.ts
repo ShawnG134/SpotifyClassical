@@ -10,7 +10,7 @@ export async function getClassicalPiecesByComposer(
     .select("*")
     .ilike("Composer", `%${composer}%`)
     //.order("RANDOM()", { ascending: true })
-    .limit(100);
+    .limit(10000);
 
   if (error) {
     console.error("Error searching by WorkTitle:", error.message);
