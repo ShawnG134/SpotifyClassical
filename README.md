@@ -1,5 +1,5 @@
 # Spotify Classical Player
-<img width="1582" alt="image" src="https://github.com/ShawnG134/SpotifyClassical/assets/168505455/3e376a4c-9339-4f30-a7e3-39f69ad55d50">
+
 
 ## Motivation
 I was deeply intrigued by the design and functionality of Apple Classical. Specifically, as a fan of Gabriel Fauré, whose piano works I highly recommend, I often found it difficult to locate his recordings. (Clearly not many people appreciate his piano works). Apple Music elegantly resolves this issue, allowing me to enjoy numerous different versions of his compositions.
