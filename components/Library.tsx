@@ -23,7 +23,7 @@ const Library = () => {
   }, []);
 
   const handleClick = (composer) => {
-    window.location.href = `/display?name=${encodeURIComponent(composer)}`;
+    window.location.href = `/Display?name=${encodeURIComponent(composer)}`;
   };
 
   return (
@@ -38,7 +38,7 @@ const Library = () => {
       {error && (
         <p className="text-center text-red-500">Error loading composers.</p>
       )}
-      <ul className="w-full list-none p-0 m-0">
+      <ul className="w-full text-neutral-400 list-none p-0 m-0">
         {composers.map((composer) => (
           <li
             key={composer}

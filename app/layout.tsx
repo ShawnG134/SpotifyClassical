@@ -21,7 +21,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={figtree.className}>
+      <body className={`${figtree.className} theme-dark`}>
         {/*<ToasterProvider />*/}
         <SpotifyAuthProvider>
           <Sidebar>{children}</Sidebar>
