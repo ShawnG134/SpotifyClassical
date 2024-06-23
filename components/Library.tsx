@@ -23,7 +23,7 @@ const Library = () => {
   }, []);
 
   const handleClick = (composer: string) => {
-    window.location.href = `/Display?name=${encodeURIComponent(composer)}`;
+    window.location.href = `/SideBarComposer?name=${encodeURIComponent(composer)}`;
   };
 
   return (

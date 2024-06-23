@@ -20,7 +20,7 @@ export async function getComposer(): Promise<string[]> {
   ];
 
   const { data, error } = await supabase
-    .from("ClassicalPiece")
+    .from("ClassicalDictionary")
     .select("Composer");
   if (error) {
     console.error("Error retrieving composers:", error.message);

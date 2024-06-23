@@ -6,7 +6,7 @@ export async function getClassicalPiecesByTitle(
 ): Promise<ClassicalPiece[]> {
   // Fetch records that match the title
   const { data, error } = await supabase
-    .from("ClassicalPiece")
+    .from("ClassicalDictionary")
     .select("*")
     .ilike("WorkTitle", `%${title}%`)
     .order("id", { ascending: true });

@@ -6,7 +6,7 @@ export async function getClassicalPiecesByComposer(
 ): Promise<ClassicalPiece[]> {
   // Fetch records that match the title
   const { data, error } = await supabase
-    .from("ClassicalPiece")
+    .from("ClassicalDictionary")
     .select("*")
     .ilike("Composer", `%${composer}%`);
   //.order("RANDOM()", { ascending: true });

@@ -11,7 +11,19 @@ import {
   PieceList,
   StyledComposerContainer,
   Title,
-} from "@/app/Display/Container";
+} from "@/app/SideBarComposer/Container";
+import imageSrc from "/Users/seangong/WebstormProjects/spotify-classical/utils/PNG image.png";
+
+const TopRightImage = styled.img`
+  width: 150px;
+  height: auto;
+  margin-left: 50px;
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
 const DisplayComposer = () => {
   const [composerName, setComposerName] = useState("");
@@ -47,7 +59,10 @@ const DisplayComposer = () => {
     <StyledComposerContainer>
       {composerName ? (
         <>
-          <Title>Pieces by {composerName}</Title>
+          <TitleContainer>
+            <Title>Pieces by {composerName}</Title>
+            <TopRightImage src={imageSrc.src} alt="Top Right Image" />
+          </TitleContainer>
           <ButtonContainer>
             <FilterButton onClick={() => filterPieces("Concerto")}>
               Concerto
@@ -55,11 +70,11 @@ const DisplayComposer = () => {
             <FilterButton onClick={() => filterPieces("Sonata")}>
               Sonata
             </FilterButton>
-            <FilterButton onClick={() => filterPieces("Nocturne")}>
-              Nocturne
+            <FilterButton onClick={() => filterPieces("Symphony")}>
+              Symphony
             </FilterButton>
-            <FilterButton onClick={() => filterPieces("Ballade")}>
-              Ballade
+            <FilterButton onClick={() => filterPieces("String Quartet")}>
+              String Quartet
             </FilterButton>
           </ButtonContainer>
           <PieceList>

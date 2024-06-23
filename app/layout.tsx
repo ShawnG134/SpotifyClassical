@@ -8,7 +8,7 @@ import { SpotifyAuthProvider } from "@/context/SpotifyAuthContext";
 const figtree = Figtree({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Spotify clone",
+  title: "Spotify Classical",
   description: "Listen to music!",
 };
 
