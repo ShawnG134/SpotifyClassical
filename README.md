@@ -1,4 +1,6 @@
 # Spotify Classical Player
+
+
 ## Motivation
 I was deeply intrigued by the design and functionality of Apple Classical. Specifically, as a fan of Gabriel Fauré, whose piano works I highly recommend, I often found it difficult to locate his recordings. (Clearly not many people appreciate his piano works). Apple Music elegantly resolves this issue, allowing me to enjoy numerous different versions of his compositions.
 
