@@ -1,13 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { ClassicalPiece, Song } from "@/types";
-import { getClassicalPiecesByComposer } from "@/action/getClassicalPieceByComposer";
-import { useSpotifyAuth } from "@/context/SpotifyAuthContext";
+import { Song } from "@/types";
 import Cookies from "js-cookie";
 import { getClassicalFromSpotify } from "@/action/getClassicalFromSpotify";
+import ClassicalPieceTable from "@/components/ClassicalPieceTable";
 
 const Page = () => {
-  const [classicalPieceName, setClassicalPieceName] = useState<Song[]>();
+  const [classicalPieceName, setClassicalPieceName] = useState<Song[]>([]);
   const accessToken = Cookies.get("spotify_access_token");
   useEffect(() => {
     async function fetchData() {
@@ -18,8 +17,8 @@ const Page = () => {
       const composer: string | null = searchParams.get("composer");
       if (name && composer && accessToken) {
         const pieceList = await getClassicalFromSpotify(
-          name,
           composer,
+          name,
           accessToken,
         );
         setClassicalPieceName(pieceList);
@@ -30,8 +29,7 @@ const Page = () => {
 
     fetchData();
   }, []);
-  console.log(classicalPieceName);
-  return <div>2</div>;
+  return <ClassicalPieceTable songs={classicalPieceName}></ClassicalPieceTable>;
 };
 
 export default Page;
