@@ -1,20 +1,39 @@
-import { supabase } from "../utils/supabaseClient";
-import { ClassicalPiece } from "@/types";
+import { supabase } from "@/utils/supabaseClient";
 
 export async function getComposer(): Promise<string[]> {
+  const famousComposersList = [
+    "Beethoven",
+    "bach",
+    "Mozart",
+    "Schubert",
+    "Brahms",
+    "Debussy",
+    "Tchaikovsky",
+    "Rachmaninoff",
+    "Haydn",
+    "Chopin",
+    "Mahler",
+    "Mendelssohn",
+    "Shostakovich",
+    "Handel",
+    "Schumann",
+  ];
+
   const { data, error } = await supabase
     .from("ClassicalPiece")
-    .select("Composer")
-    .order("Composer", { ascending: true });
-
+    .select("Composer");
   if (error) {
     console.error("Error retrieving composers:", error.message);
     return [];
   }
 
-  // Extracting unique Composer names from the data
+  const filteredComposers = data
+    .map((item) => item.Composer)
+    .filter((composer) =>
+      famousComposersList.some((famousComposer) =>
+        composer.includes(famousComposer),
+      ),
+    );
   const composerSet = new Set(data.map((item) => item.Composer));
-  const uniqueComposers = Array.from(composerSet);
-  console.log(uniqueComposers);
-  return uniqueComposers;
+  return Array.from(composerSet);
 }
