@@ -2,24 +2,23 @@
 
 import Image from "next/image";
 
-import useLoadImage from "@/hooks/useLoadImage";
-import { Song } from "@/types";
+import {Song} from "@/types";
 
 interface SongItemProps {
-  data: Song;
-  // onClick: (id: string) => void
+	data: Song;
+	// onClick: (id: string) => void
 }
 
-const AlbumCoverSpotify: React.FC<SongItemProps> = ({ data }) => {
-  const imagePath = data.image_path;
-  const handleClick = (url: string) => {
-    window.location.href = url;
-  };
+const AlbumCoverSpotify: React.FC<SongItemProps> = ({data}) => {
+	const imagePath = data.image_path;
+	const handleClick = (url: string) => {
+		window.location.href = url;
+	};
 
-  return (
-    <div
-      onClick={() => handleClick(data.song_path)}
-      className="
+	return (
+		<div
+			onClick={() => handleClick(data.song_path)}
+			className="
         relative
         group
         flex
@@ -35,9 +34,9 @@ const AlbumCoverSpotify: React.FC<SongItemProps> = ({ data }) => {
         transition
         p-3
       "
-    >
-      <div
-        className="
+		>
+			<div
+				className="
           relative
           aspect-square
           w-full
@@ -45,39 +44,39 @@ const AlbumCoverSpotify: React.FC<SongItemProps> = ({ data }) => {
           rounded-md
           overflow-hidden
         "
-      >
-        <Image
-          className="object-cover"
-          src={imagePath || "/images/music-placeholder.png"}
-          fill
-          alt="Image"
-        />
-      </div>
-      <div className="flex flex-col items-start w-full pt-4 gap-y-1">
-        <p className="font-semibold truncate w-full">{data.title}</p>
-        <p
-          className="
+			>
+				<Image
+					className="object-cover"
+					src={imagePath || "/images/music-placeholder.png"}
+					fill
+					alt="Image"
+				/>
+			</div>
+			<div className="flex flex-col items-start w-full pt-4 gap-y-1">
+				<p className="font-semibold truncate w-full">{data.title}</p>
+				<p
+					className="
             text-neutral-400
             text-sm
             pb-4
             w-full
             truncate
           "
-        >
-          By {data.author}
-        </p>
-      </div>
-      <div
-        className="
+				>
+					By {data.author}
+				</p>
+			</div>
+			<div
+				className="
           absolute
           bottom-24
           right-5
         "
-      >
-        {/*<PlayButton />*/}
-      </div>
-    </div>
-  );
+			>
+				{/*<PlayButton />*/}
+			</div>
+		</div>
+	);
 };
 
 export default AlbumCoverSpotify;

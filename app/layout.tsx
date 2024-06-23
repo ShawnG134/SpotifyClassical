@@ -1,33 +1,33 @@
 import "./globals.css";
-import { Figtree } from "next/font/google";
+import {Figtree} from "next/font/google";
 
 import Sidebar from "@/components/Sidebar";
 import React from "react";
-import { SpotifyAuthProvider } from "@/context/SpotifyAuthContext";
+import {SpotifyAuthProvider} from "@/context/SpotifyAuthContext";
 
-const figtree = Figtree({ subsets: ["latin"] });
+const figtree = Figtree({subsets: ["latin"]});
 
 export const metadata = {
-  title: "Spotify Classical",
-  description: "Listen to music!",
+	title: "Spotify Classical",
+	description: "Listen to music!",
 };
 
 export const revalidate = 0;
 
 export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
+											 children,
+										 }: {
+	children: React.ReactNode;
 }) {
-  return (
-    <html lang="en">
-      <body className={`${figtree.className} theme-dark`}>
-        {/*<ToasterProvider />*/}
-        <SpotifyAuthProvider>
-          <Sidebar>{children}</Sidebar>
-        </SpotifyAuthProvider>
-        {/*<Player />*/}
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+		<body className={`${figtree.className} theme-dark`}>
+		{/*<ToasterProvider />*/}
+		<SpotifyAuthProvider>
+			<Sidebar>{children}</Sidebar>
+		</SpotifyAuthProvider>
+		{/*<Player />*/}
+		</body>
+		</html>
+	);
 }
