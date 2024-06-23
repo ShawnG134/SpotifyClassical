@@ -1,11 +1,18 @@
 # Spotify Classical Player
+<img width="1286" alt="image" src="https://github.com/ShawnG134/SpotifyClassical/assets/168505455/5be3f566-92b4-402e-aba0-21084ea3b1af">
 
 
 ## Motivation
-I was deeply intrigued by the design and functionality of Apple Classical. Specifically, as a fan of Gabriel Fauré, whose piano works I highly recommend, I often found it difficult to locate his recordings. (Clearly not many people appreciate his piano works). Apple Music elegantly resolves this issue, allowing me to enjoy numerous different versions of his compositions.
+I was deeply intrigued by the design and functionality of Apple Classical. Specifically, as a fan of Gabriel Fauré, whose piano works I highly recommend, I often found it difficult to locate his recordings. (Not many people appreciate his piano works). Apple Music elegantly resolves this issue, allowing me to enjoy numerous different versions of his compositions.
 
 Unfortunately, Spotify does not natively support a similar feature. As a result, I decided to develop my own Spotify Classical Player using Next.js.
 
+## Functionality
+- Discover Different Recordings of the Same Classical Piece: Enables users to explore various recordings of the same classical music piece.
+- Find a Complete List of Classical Pieces by a Composer: Provides an exhaustive list of all classical compositions from a specific composer.
+- Filter by Composition Type: Allows users to filter compositions by type (Concerto, Sonata, Symphony) for a specific composer.
+- To Be Determined: Additional features will be added based on user needs and feedback.
+  
 ## What's this project for
 This project is designed to inspire enthusiasts of classical music to develop similar applications for classical music.
 It is aimed at those who appreciate Apple Classical but prefer not to switch to Apple Music.
