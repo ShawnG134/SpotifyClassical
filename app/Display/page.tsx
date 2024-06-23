@@ -32,8 +32,8 @@ const DisplayComposer = () => {
     fetchData();
   }, []);
 
-  const handleClick = (composer: string) => {
-    window.location.href = `/ClassicalPiece?name=${encodeURIComponent(composer)}`;
+  const handleClick = (workTitle: string, composer: string) => {
+    window.location.href = `/ClassicalPiece?name=${encodeURIComponent(workTitle)}&composer=${encodeURIComponent(composer)}`;
   };
 
   const filterPieces = (type: string) => {
@@ -66,7 +66,7 @@ const DisplayComposer = () => {
             {currentPiece.map((piece, index) => (
               <PieceItem
                 key={index}
-                onClick={() => handleClick(piece.WorkTitle)}
+                onClick={() => handleClick(piece.WorkTitle, piece.Composer)}
               >
                 {piece.WorkTitle}
               </PieceItem>
