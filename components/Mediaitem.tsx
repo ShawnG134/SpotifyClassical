@@ -10,19 +10,11 @@ interface MediaItemProps {
 
 const MediaItem: React.FC<MediaItemProps> = ({data, onClick}) => {
 	const player = usePlayer();
-	// const imageUrl = useLoadImage(data);
 
-	const handleClick = () => {
-		if (onClick) {
-			console.log(data.WorkTitle);
-		}
-		//
-		// return player.setId(data.id);
-	};
 
 	return (
 		<div
-			onClick={handleClick}
+			onClick={() => onClick}
 			className="
         flex
         items-center
