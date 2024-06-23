@@ -1,5 +1,6 @@
 # Spotify Classical Player
-<img width="1286" alt="image" src="https://github.com/ShawnG134/SpotifyClassical/assets/168505455/5be3f566-92b4-402e-aba0-21084ea3b1af">
+<img width="1260" alt="image" src="https://github.com/ShawnG134/SpotifyClassical/assets/168505455/9d577da3-30f2-494e-8e8d-afa25735681c">
+
 
 
 ## Motivation
