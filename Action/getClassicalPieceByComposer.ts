@@ -8,9 +8,8 @@ export async function getClassicalPiecesByComposer(
   const { data, error } = await supabase
     .from("ClassicalPiece")
     .select("*")
-    .ilike("Composer", `%${composer}%`)
-    //.order("RANDOM()", { ascending: true })
-    .limit(10000);
+    .ilike("Composer", `%${composer}%`);
+  //.order("RANDOM()", { ascending: true });
 
   if (error) {
     console.error("Error searching by WorkTitle:", error.message);

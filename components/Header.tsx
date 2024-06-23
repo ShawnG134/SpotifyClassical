@@ -15,6 +15,7 @@ import useAuthModal from "@/hooks/useAuthModal";
 
 import usePlayer from "@/hooks/usePlayer";
 import { useSpotifyAuth } from "@/context/SpotifyAuthContext";
+import Cookies from "js-cookie";
 
 interface HeaderProps {
   children: React.ReactNode;
@@ -54,6 +55,11 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
         console.log("Access Token:", data.access_token);
         toast.success("Successfully logged in with Spotify!");
         router.push("/");
+        Cookies.set("spotify_access_token", data.access_token, {
+          expires: 1, // 1 day
+          secure: true, // for HTTPS
+          sameSite: "None", // necessary for cross-origin cookies
+        });
       } else {
         toast.error("Failed to log in with Spotify.");
       }

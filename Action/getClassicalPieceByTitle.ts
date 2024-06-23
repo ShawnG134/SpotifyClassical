@@ -9,8 +9,7 @@ export async function getClassicalPiecesByTitle(
     .from("ClassicalPiece")
     .select("*")
     .ilike("WorkTitle", `%${title}%`)
-    .order("id", { ascending: true })
-    .limit(100);
+    .order("id", { ascending: true });
 
   if (error) {
     console.error("Error searching by WorkTitle:", error.message);

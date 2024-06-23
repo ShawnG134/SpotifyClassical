@@ -4,53 +4,14 @@ import { ClassicalPiece } from "@/types";
 import { getClassicalPiecesByComposer } from "@/action/getClassicalPieceByComposer";
 import Loading from "@/app/Search/loading";
 import styled from "styled-components";
-
-const StyledComposerContainer = styled.div`
-  padding: 24px;
-  background-color: #121212;
-  color: #fff;
-  font-family: "Helvetica Neue", sans-serif;
-`;
-
-const Title = styled.h1`
-  font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 20px;
-`;
-
-const PieceList = styled.ul`
-  list-style: none;
-  padding: 0;
-`;
-
-const PieceItem = styled.li`
-  padding: 10px 0;
-  border-bottom: 1px solid #333;
-  cursor: pointer;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: #1c1c1c;
-  }
-`;
-
-const ButtonContainer = styled.div`
-  margin-bottom: 20px;
-`;
-
-const FilterButton = styled.button`
-  margin-right: 10px;
-  background: none;
-  border: 1px solid #fff;
-  color: #fff;
-  padding: 8px 16px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-
-  &:hover {
-    background-color: #333;
-  }
-`;
+import {
+  ButtonContainer,
+  FilterButton,
+  PieceItem,
+  PieceList,
+  StyledComposerContainer,
+  Title,
+} from "@/app/Display/Container";
 
 const DisplayComposer = () => {
   const [composerName, setComposerName] = useState("");
@@ -70,6 +31,10 @@ const DisplayComposer = () => {
     }
     fetchData();
   }, []);
+
+  const handleClick = (composer: string) => {
+    window.location.href = `/ClassicalPiece?name=${encodeURIComponent(composer)}`;
+  };
 
   const filterPieces = (type: string) => {
     const filteredPieces = composerPieces.filter((piece) =>
@@ -99,7 +64,12 @@ const DisplayComposer = () => {
           </ButtonContainer>
           <PieceList>
             {currentPiece.map((piece, index) => (
-              <PieceItem key={index}>{piece.WorkTitle}</PieceItem>
+              <PieceItem
+                key={index}
+                onClick={() => handleClick(piece.WorkTitle)}
+              >
+                {piece.WorkTitle}
+              </PieceItem>
             ))}
           </PieceList>
         </>

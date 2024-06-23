@@ -22,7 +22,7 @@ const Library = () => {
       });
   }, []);
 
-  const handleClick = (composer) => {
+  const handleClick = (composer: string) => {
     window.location.href = `/Display?name=${encodeURIComponent(composer)}`;
   };
 
