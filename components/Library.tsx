@@ -1,10 +1,11 @@
 import {TbPlaylist} from "react-icons/tb";
 import {famousComposers} from "@/utils/constants";
+import {useRouter} from "next/navigation";
 
 const Library = () => {
-
+	const router = useRouter();
 	const handleClick = (composer: string) => {
-		window.location.href = `/SideBarComposer?name=${encodeURIComponent(composer)}`;
+		router.push(`/SideBarComposer?name=${encodeURIComponent(composer)}`);
 	};
 
 	return (

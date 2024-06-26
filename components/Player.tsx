@@ -1,19 +1,16 @@
 "use client"
-
-import usePlayer from "@/hooks/usePlayer"
+import React, { memo, useMemo } from "react";
+import usePlayer from "@/hooks/usePlayer";
 import useLoadSongUrl from "@/hooks/useLoadSongUrl";
 import useGetSongById from "@/hooks/useGetSongById";
-import PlayerContent from "@/components/PlayerContent";
+import { WebPlayback } from "@/components/PlayerContent";
+import Cookies from "js-cookie";
 
 const Player = () => {
-	const player = usePlayer()
-	const { song } = useGetSongById(player.activeId)
-
-	const songUrl = useLoadSongUrl(song!)
-
-	if (!song || !songUrl || !player.activeId) {
-		return null
-	}
+	const player = usePlayer();
+	const { song } = useGetSongById(player.activeId);
+	const accessToken = useMemo(() => Cookies.get("spotify_access_token"), []);
+	const trackUri = song?.user_id ?? "";
 
 	return (
 		<div
@@ -26,9 +23,9 @@ const Player = () => {
         h-[80px]
         px-4
       ">
-			<PlayerContent key={songUrl} song={song} songUrl={songUrl} />
+			<WebPlayback key={trackUri} token={accessToken!} trackUri={trackUri} />
 		</div>
-	)
-}
+	);
+};
 
-export default Player
+export default memo(Player);

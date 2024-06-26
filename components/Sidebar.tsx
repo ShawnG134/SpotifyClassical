@@ -33,7 +33,6 @@ const Sidebar: React.FC<SidebarProps> = ({children}) => {
 				active: pathname === "/Search",
 				href: "/Search",
 			},
-			// eslint-disable-next-line react-hooks/exhaustive-deps
 		],
 		[pathname],
 	);

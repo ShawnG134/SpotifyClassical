@@ -1,186 +1,157 @@
-"use client"
-
-import useSound from "use-sound"
-import {useEffect, useState} from "react"
-import {BsPauseFill, BsPlayFill} from "react-icons/bs"
-import {HiSpeakerWave, HiSpeakerXMark} from "react-icons/hi2"
-import {AiFillStepBackward, AiFillStepForward} from "react-icons/ai"
-
-import {Song} from "@/types"
-import usePlayer from "@/hooks/usePlayer"
-
-
-import MediaItemSingleSong from "@/components/MediaitemSingleSong";
+import { VFC, useState, useEffect, useRef } from "react";
+import { BsPauseFill, BsPlayFill } from "react-icons/bs";
+import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 import Slider from "@/components/Slider";
 
-interface PlayerContentProps {
-	song: Song
-	songUrl: string
-}
+type Props = {
+	token: string;
+	trackUri: string;
+};
 
-const PlayerContent: React.FC<PlayerContentProps> = ({song, songUrl}) => {
-	const player = usePlayer()
-	const [volume, setVolume] = useState(1)
-	const [isPlaying, setIsPlaying] = useState(false)
+export const WebPlayback: VFC<Props> = ({ token, trackUri }) => {
+	const [is_paused, setPaused] = useState<boolean>(false);
+	const [is_active, setActive] = useState<boolean>(false);
+	const [current_track, setTrack] = useState<Spotify.Track | null>(null);
+	const playerRef = useRef<Spotify.Player | null>(null);
+	const deviceIdRef = useRef<string | null>(null);
 
-	const Icon = isPlaying ? BsPauseFill : BsPlayFill
-	const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave
-
-	const onPlayNext = () => {
-		if (player.ids.length === 0) {
-			return
-		}
-
-		const currentIndex = player.ids.findIndex(id => id === player.activeId)
-		const nextSong = player.ids[currentIndex + 1]
-
-		if (!nextSong) {
-			return player.setId(player.ids[0])
-		}
-
-		player.setId(nextSong)
-	}
-
-	const onPlayPrevious = () => {
-		if (player.ids.length === 0) {
-			return
-		}
-
-		const currentIndex = player.ids.findIndex(id => id === player.activeId)
-		const previousSong = player.ids[currentIndex - 1]
-
-		if (!previousSong) {
-			return player.setId(player.ids[player.ids.length - 1])
-		}
-
-		player.setId(previousSong)
-	}
-
-	const [play, {pause, sound}] = useSound(songUrl, {
-		volume: volume,
-		onplay: () => setIsPlaying(true),
-		onend: () => {
-			setIsPlaying(false)
-			onPlayNext()
-		},
-		onpause: () => setIsPlaying(false),
-		format: ["mp3"],
-	})
+	const Icon = is_paused ? BsPlayFill : BsPauseFill;
 
 	useEffect(() => {
-		sound?.play()
+		const script = document.createElement("script");
+		script.src = "https://sdk.scdn.co/spotify-player.js";
+		script.async = true;
 
-		return () => {
-			sound?.unload()
-		}
-	}, [sound])
+		document.body.appendChild(script);
 
-	const handlePlay = () => {
-		if (!isPlaying) {
-			play()
-		} else {
-			pause()
+		window.onSpotifyWebPlaybackSDKReady = () => {
+			const player = new window.Spotify.Player({
+				name: "Web Playback SDK",
+				getOAuthToken: (cb) => {
+					cb(token);
+				},
+				volume: 0.5,
+			});
+
+			playerRef.current = player;
+
+			player.addListener("ready", ({ device_id }) => {
+				deviceIdRef.current = device_id;
+				console.log("Ready with Device ID", device_id);
+
+				playTrack(trackUri);
+			});
+
+			player.addListener("not_ready", ({ device_id }) => {
+				console.log("Device ID has gone offline", device_id);
+			});
+
+			player.addListener("player_state_changed", (state) => {
+				if (!state) {
+					return;
+				}
+
+				setTrack(state.track_window.current_track);
+				setPaused(state.paused);
+
+				player.getCurrentState().then((state) => {
+					if (!state) {
+						setActive(false);
+					} else {
+						setActive(true);
+					}
+				});
+			});
+
+			player.connect();
+		};
+	}, [token]);
+
+	useEffect(() => {
+		if (is_active) {
+			playTrack(trackUri);
 		}
+	}, []);
+
+	const playTrack = (uri: string) => {
+		if (deviceIdRef.current) {
+			fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceIdRef.current}`, {
+				method: 'PUT',
+				body: JSON.stringify({ uris: [uri] }),
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Bearer ${token}`,
+				},
+			});
+		}
+	};
+
+	if (!playerRef.current) {
+		return (
+			<div className="container">
+				<div className="main-wrapper">
+					<b>Spotify Player is null</b>
+				</div>
+			</div>
+		);
+	} else if (!is_active) {
+		return (
+			<div className="container">
+				<div className="main-wrapper">
+					<b>
+						Instance not active. Transfer your playback using your Spotify app
+					</b>
+				</div>
+			</div>
+		);
+	} else {
+		return (
+			<div className="grid grid-cols-2 md:grid-cols-3 h-full">
+				<div className="flex w-full justify-start">
+					<div className="flex items-center gap-x-4">
+						<div>
+							<div className="now-playing__name">{current_track?.name}</div>
+							<div className="now-playing__artist">
+								{current_track?.artists[0].name}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div className="flex md:hidden col-auto w-full justify-end items-center">
+					<div
+						onClick={() => playerRef.current?.togglePlay()}
+						className="h-10 w-10 flex items-center justify-center rounded-full bg-white p-1 cursor-pointer"
+					>
+						<Icon size={30} className="text-black" />
+					</div>
+				</div>
+
+				<div className="hidden h-full md:flex justify-center items-center w-full max-w-[722px] gap-x-6">
+					<AiFillStepBackward
+						onClick={() => playerRef.current?.previousTrack()}
+						size={30}
+						className="text-neutral-400 cursor-pointer hover:text-white transition"
+					/>
+					<div
+						onClick={() => playerRef.current?.togglePlay()}
+						className="flex items-center justify-center h-10 w-10 rounded-full bg-white p-1 cursor-pointer"
+					>
+						<Icon size={30} className="text-black" />
+					</div>
+					<AiFillStepForward
+						onClick={() => playerRef.current?.nextTrack()}
+						size={30}
+						className="text-neutral-400 cursor-pointer hover:text-white transition"
+					/>
+				</div>
+
+				<div className="hidden md:flex w-full justify-end pr-2">
+					<div className="flex items-center gap-x-2 w-[120px]">
+						<Slider value={0.5} onChange={value => playerRef.current?.setVolume(value)} />
+					</div>
+				</div>
+			</div>
+		);
 	}
-
-	const toggleMute = () => {
-		if (volume === 0) {
-			setVolume(1)
-		} else {
-			setVolume(0)
-		}
-	}
-
-	return (
-		<div className="grid grid-cols-2 md:grid-cols-3 h-full">
-			<div className="flex w-full justify-start">
-				<div className="flex items-center gap-x-4">
-					<MediaItemSingleSong data={song}/>
-				</div>
-			</div>
-
-			<div
-				className="
-            flex
-            md:hidden
-            col-auto
-            w-full
-            justify-end
-            items-center
-          ">
-				<div
-					onClick={handlePlay}
-					className="
-              h-10
-              w-10
-              flex
-              items-center
-              justify-center
-              rounded-full
-              bg-white
-              p-1
-              cursor-pointer
-            ">
-					<Icon size={30} className="text-black"/>
-				</div>
-			</div>
-
-			<div
-				className="
-            hidden
-            h-full
-            md:flex
-            justify-center
-            items-center
-            w-full
-            max-w-[722px]
-            gap-x-6
-          ">
-				<AiFillStepBackward
-					onClick={onPlayPrevious}
-					size={30}
-					className="
-              text-neutral-400
-              cursor-pointer
-              hover:text-white
-              transition
-            "
-				/>
-				<div
-					onClick={handlePlay}
-					className="
-              flex
-              items-center
-              justify-center
-              h-10
-              w-10
-              rounded-full
-              bg-white
-              p-1
-              cursor-pointer
-            ">
-					<Icon size={30} className="text-black"/>
-				</div>
-				<AiFillStepForward
-					onClick={onPlayNext}
-					size={30}
-					className="
-              text-neutral-400
-              cursor-pointer
-              hover:text-white
-              transition
-            "
-				/>
-			</div>
-
-			<div className="hidden md:flex w-full justify-end pr-2">
-				<div className="flex items-center gap-x-2 w-[120px]">
-					<VolumeIcon onClick={toggleMute} className="cursor-pointer" size={34}/>
-					<Slider value={volume} onChange={value => setVolume(value)}/>
-				</div>
-			</div>
-		</div>
-	)
-}
-
-export default PlayerContent
+};

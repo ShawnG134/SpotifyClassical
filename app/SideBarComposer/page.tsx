@@ -12,6 +12,7 @@ import {
 	StyledComposerContainer,
 	Title,
 } from "@/app/SideBarComposer/Container";
+import {useRouter} from "next/navigation";
 
 const TopRightImage = styled.img`
     width: 150px;
@@ -28,7 +29,6 @@ const DisplayComposer = () => {
 	const [composerName, setComposerName] = useState("");
 	const [composerPieces, setComposerPieces] = useState<ClassicalPiece[]>([]);
 	const [currentPiece, setCurrentPiece] = useState<ClassicalPiece[]>([]);
-
 	useEffect(() => {
 		async function fetchData() {
 			const searchParams = new URLSearchParams(window.location.search);
@@ -40,12 +40,11 @@ const DisplayComposer = () => {
 				setCurrentPiece(pieces);
 			}
 		}
-
 		fetchData();
-	}, []);
-
+	}, [composerName]);
+	const router = useRouter();
 	const handleClick = (workTitle: string, composer: string) => {
-		window.location.href = `/ClassicalPiece?name=${encodeURIComponent(workTitle)}&composer=${encodeURIComponent(composer)}`;
+		router.push(`/ClassicalPiece?name=${encodeURIComponent(workTitle)}&composer=${encodeURIComponent(composer)}`);
 	};
 
 	const filterPieces = (type: string) => {

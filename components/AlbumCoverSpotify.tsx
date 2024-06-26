@@ -3,6 +3,9 @@
 import Image from "next/image";
 
 import {SpotifyAlbum} from "@/types";
+import React from "react";
+import PlayButton from "@/components/PlayButton";
+import {useRouter} from "next/navigation";
 
 interface SongItemProps {
 	data: SpotifyAlbum;
@@ -11,13 +14,14 @@ interface SongItemProps {
 
 const AlbumCoverSpotify: React.FC<SongItemProps> = ({data}) => {
 	const imagePath = data.image_path;
-	const handleClick = (url: string) => {
-		window.location.href = url;
+	const router = useRouter();
+	const handleClick = (id: string) => {
+		router.push(`/AlbumDisplay?id=${encodeURIComponent(id)}`);
 	};
 
 	return (
 		<div
-			onClick={() => handleClick(data.song_path)}
+			onClick={() => handleClick(data.id)}
 			className="
         relative
         group
@@ -73,7 +77,7 @@ const AlbumCoverSpotify: React.FC<SongItemProps> = ({data}) => {
           right-5
         "
 			>
-				{/*<PlayButton />*/}
+				<PlayButton />
 			</div>
 		</div>
 	);

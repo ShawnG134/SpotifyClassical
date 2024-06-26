@@ -3,17 +3,21 @@
 import {ClassicalPiece} from "@/types";
 import React from "react";
 import MediaItem from "@/components/Mediaitem";
+import {useRouter} from "next/navigation";
 
 interface SearchContentProps {
 	songs: ClassicalPiece[];
 }
 
 
-const handleClick = (workTitle: string, composer: string) => {
-	window.location.href = `/ClassicalPiece?name=${encodeURIComponent(workTitle)}&composer=${encodeURIComponent(composer)}`;
-};
+
+
 
 const SearchContent: React.FC<SearchContentProps> = ({songs}) => {
+	const router = useRouter();
+	const handleClick = (workTitle: string, composer: string) => {
+		router.push(`/ClassicalPiece?name=${encodeURIComponent(workTitle)}&composer=${encodeURIComponent(composer)}`);
+	};
 	if (songs.length === 0) {
 		return (
 			<div

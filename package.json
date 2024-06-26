@@ -18,6 +18,7 @@
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/supabase-js": "^2.43.5",
     "@types/js-cookie": "^3.0.6",
+    "@types/spotify-web-playback-sdk": "^0.1.19",
     "axios": "^1.7.2",
     "connect-mongo": "^5.1.0",
     "daisyui": "^4.12.2",

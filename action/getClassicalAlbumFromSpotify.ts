@@ -1,7 +1,7 @@
 import {SpotifyAlbum} from "@/types";
 import axios from "axios";
 
-export async function getClassicalFromSpotify(
+export async function getClassicalAlbumFromSpotify(
 	composer: string,
 	workTitle: string,
 	accessToken: string,
@@ -27,7 +27,7 @@ export async function getClassicalFromSpotify(
 			id: album.id,
 			author: album.artists.map((artist: any) => artist.name).join(", "),
 			title: album.name,
-			album_path: album.external_urls.spotify,
+			song_path: album.external_urls.spotify,
 			image_path: album.images[0]?.url || "",
 		}));
 		return albums;
