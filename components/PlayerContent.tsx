@@ -53,14 +53,7 @@ export const WebPlayback: VFC<Props> = ({ token, trackUri }) => {
 
 				setTrack(state.track_window.current_track);
 				setPaused(state.paused);
-
-				player.getCurrentState().then((state) => {
-					if (!state) {
-						setActive(false);
-					} else {
-						setActive(true);
-					}
-				});
+				setActive(true);
 			});
 
 			player.connect();
@@ -90,7 +83,7 @@ export const WebPlayback: VFC<Props> = ({ token, trackUri }) => {
 		return (
 			<div className="container">
 				<div className="main-wrapper">
-					<b>Spotify Player is null</b>
+					<b></b>
 				</div>
 			</div>
 		);
@@ -99,7 +92,7 @@ export const WebPlayback: VFC<Props> = ({ token, trackUri }) => {
 			<div className="container">
 				<div className="main-wrapper">
 					<b>
-						Instance not active. Transfer your playback using your Spotify app
+						Loading
 					</b>
 				</div>
 			</div>
@@ -111,9 +104,6 @@ export const WebPlayback: VFC<Props> = ({ token, trackUri }) => {
 					<div className="flex items-center gap-x-4">
 						<div>
 							<div className="now-playing__name">{current_track?.name}</div>
-							<div className="now-playing__artist">
-								{current_track?.artists[0].name}
-							</div>
 						</div>
 					</div>
 				</div>

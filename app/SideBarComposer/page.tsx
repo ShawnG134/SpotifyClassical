@@ -1,7 +1,7 @@
 "use client";
-import React, {useEffect, useState} from "react";
-import {ClassicalPiece} from "@/types";
-import {getClassicalPiecesByComposer} from "@/action/getClassicalPieceByComposer";
+import React, { useEffect, useState } from "react";
+import { ClassicalPiece } from "@/types";
+import { getClassicalPiecesByComposer } from "@/action/getClassicalPieceByComposer";
 import Loading from "@/app/Search/loading";
 import styled from "styled-components";
 import {
@@ -12,7 +12,7 @@ import {
 	StyledComposerContainer,
 	Title,
 } from "@/app/SideBarComposer/Container";
-import {useRouter} from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const TopRightImage = styled.img`
     width: 150px;
@@ -29,10 +29,12 @@ const DisplayComposer = () => {
 	const [composerName, setComposerName] = useState("");
 	const [composerPieces, setComposerPieces] = useState<ClassicalPiece[]>([]);
 	const [currentPiece, setCurrentPiece] = useState<ClassicalPiece[]>([]);
+	const router = useRouter();
+	const searchParams = useSearchParams();
+
 	useEffect(() => {
 		async function fetchData() {
-			const searchParams = new URLSearchParams(window.location.search);
-			const name = searchParams.get("name");
+			const name = searchParams?.get("name");
 			if (name) {
 				const pieces = await getClassicalPiecesByComposer(name);
 				setComposerName(name);
@@ -41,8 +43,8 @@ const DisplayComposer = () => {
 			}
 		}
 		fetchData();
-	}, [composerName]);
-	const router = useRouter();
+	}, [searchParams]);
+
 	const handleClick = (workTitle: string, composer: string) => {
 		router.push(`/ClassicalPiece?name=${encodeURIComponent(workTitle)}&composer=${encodeURIComponent(composer)}`);
 	};
@@ -60,8 +62,6 @@ const DisplayComposer = () => {
 				<>
 					<TitleContainer>
 						<Title>Pieces by {composerName}</Title>
-						{/*To avoid copyright issue*/}
-						{/*<TopRightImage src={imageSrc.src} alt="Top Right Image" />*/}
 					</TitleContainer>
 					<ButtonContainer>
 						<FilterButton onClick={() => filterPieces("Concerto")}>

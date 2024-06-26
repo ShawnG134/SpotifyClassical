@@ -12,8 +12,13 @@ const Player = () => {
 	const accessToken = useMemo(() => Cookies.get("spotify_access_token"), []);
 	const trackUri = song?.user_id ?? "";
 
+	if (!song || !trackUri || !player.activeId) {
+		return null
+	}
+
 	return (
-		<div
+
+		< div
 			className="
         fixed
         bottom-0
