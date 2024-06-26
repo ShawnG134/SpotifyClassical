@@ -11,9 +11,9 @@ export async function getClassicalFromSpotify(
 	console.log(query);
 	const params = {
 		q: query,
-		type: "track",
-		market: "US", // Adjust the market as necessary
-		limit: 20, // Adjust the limit as per requirements
+		type: "album",
+		market: "US",
+		limit: 20,
 	};
 	const headers = {
 		Authorization: `Bearer ${accessToken}`,
@@ -23,16 +23,16 @@ export async function getClassicalFromSpotify(
 	try {
 		const response = await axios.get(url, {params, headers});
 		console.log(response);
-		const tracks = response.data.tracks.items.map((track: any) => ({
-			id: track.id,
-			author: track.artists.map((artist: any) => artist.name).join(", "),
-			title: track.name,
-			song_path: track.external_urls.spotify,
-			image_path: track.album.images[0]?.url || "",
+		const albums = response.data.albums.items.map((album: any) => ({
+			id: album.id,
+			author: album.artists.map((artist: any) => artist.name).join(", "),
+			title: album.name,
+			album_path: album.external_urls.spotify,
+			image_path: album.images[0]?.url || "",
 		}));
-		return tracks;
+		return albums;
 	} catch (error) {
-		console.error("Error fetching classical music from Spotify:", error);
-		throw new Error("Failed to fetch classical music from Spotify");
+		console.error("Error fetching classical music albums from Spotify:", error);
+		throw new Error("Failed to fetch classical music albums from Spotify");
 	}
 }

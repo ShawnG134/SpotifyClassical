@@ -4,6 +4,7 @@ import {Figtree} from "next/font/google";
 import Sidebar from "@/components/Sidebar";
 import React from "react";
 import {SpotifyAuthProvider} from "@/context/SpotifyAuthContext";
+import Player from "@/components/Player";
 
 const figtree = Figtree({subsets: ["latin"]});
 
@@ -22,11 +23,10 @@ export default async function RootLayout({
 	return (
 		<html lang="en">
 		<body className={`${figtree.className} theme-dark`}>
-		{/*<ToasterProvider />*/}
 		<SpotifyAuthProvider>
 			<Sidebar>{children}</Sidebar>
 		</SpotifyAuthProvider>
-		{/*<Player />*/}
+		<Player />
 		</body>
 		</html>
 	);

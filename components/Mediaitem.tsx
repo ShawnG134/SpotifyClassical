@@ -10,8 +10,6 @@ interface MediaItemProps {
 
 const MediaItem: React.FC<MediaItemProps> = ({data, onClick}) => {
 	const player = usePlayer();
-
-
 	return (
 		<div
 			onClick={() => onClick}
