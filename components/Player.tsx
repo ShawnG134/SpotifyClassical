@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { memo, useMemo } from "react";
 import usePlayer from "@/hooks/usePlayer";
 import useLoadSongUrl from "@/hooks/useLoadSongUrl";
@@ -13,21 +13,11 @@ const Player = () => {
 	const trackUri = song?.user_id ?? "";
 
 	if (!song || !trackUri || !player.activeId) {
-		return null
+		return null;
 	}
 
 	return (
-
-		< div
-			className="
-        fixed
-        bottom-0
-        bg-black
-        w-full
-        py-2
-        h-[80px]
-        px-4
-      ">
+		<div className="fixed bottom-0 bg-black w-full py-2 h-[80px] px-4">
 			<WebPlayback key={trackUri} token={accessToken!} trackUri={trackUri} />
 		</div>
 	);

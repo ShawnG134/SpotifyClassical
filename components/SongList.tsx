@@ -11,7 +11,7 @@ const SongList: React.FC<SongListProps> = ({ albumPieceList, onClick }) => {
 	const player = usePlayer();
 	const handleClick = (piece: Song) => {
 		if (onClick) {
-			onClick(piece.id);
+			return onClick(piece.id);
 		} else {
 			player.setId(piece.id);
 		}

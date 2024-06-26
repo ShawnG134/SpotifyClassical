@@ -24,7 +24,7 @@ export const WebPlayback: VFC<Props> = ({ token, trackUri }) => {
 
 		document.body.appendChild(script);
 
-		window.onSpotifyWebPlaybackSDKReady = () => {
+		const initializePlayer = () => {
 			const player = new window.Spotify.Player({
 				name: "Web Playback SDK",
 				getOAuthToken: (cb) => {
@@ -37,43 +37,51 @@ export const WebPlayback: VFC<Props> = ({ token, trackUri }) => {
 
 			player.addListener("ready", ({ device_id }) => {
 				deviceIdRef.current = device_id;
+				setActive(true);
 				console.log("Ready with Device ID", device_id);
-
-				playTrack(trackUri);
 			});
 
 			player.addListener("not_ready", ({ device_id }) => {
 				console.log("Device ID has gone offline", device_id);
+				setActive(false);
 			});
 
 			player.addListener("player_state_changed", (state) => {
-				if (!state) {
-					return;
-				}
-
+				if (!state) return;
 				setTrack(state.track_window.current_track);
 				setPaused(state.paused);
-				setActive(true);
 			});
 
 			player.connect();
 		};
+
+		if (window.Spotify) {
+			initializePlayer();
+		} else {
+			window.onSpotifyWebPlaybackSDKReady = initializePlayer;
+		}
+
+		return () => {
+			if (playerRef.current) {
+				playerRef.current.disconnect();
+			}
+		};
 	}, [token]);
 
 	useEffect(() => {
-		if (is_active) {
+		if (is_active && deviceIdRef.current) {
 			playTrack(trackUri);
 		}
-	}, []);
+	}, [is_active, trackUri]);
 
 	const playTrack = (uri: string) => {
 		if (deviceIdRef.current) {
 			fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceIdRef.current}`, {
-				method: 'PUT',
+				method: "PUT",
 				body: JSON.stringify({ uris: [uri] }),
 				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': `Bearer ${token}`,
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
 				},
 			});
 		}
@@ -83,7 +91,7 @@ export const WebPlayback: VFC<Props> = ({ token, trackUri }) => {
 		return (
 			<div className="container">
 				<div className="main-wrapper">
-					<b></b>
+					<b>Loading...</b>
 				</div>
 			</div>
 		);
@@ -91,9 +99,7 @@ export const WebPlayback: VFC<Props> = ({ token, trackUri }) => {
 		return (
 			<div className="container">
 				<div className="main-wrapper">
-					<b>
-						Loading
-					</b>
+					<b>Loading...</b>
 				</div>
 			</div>
 		);
@@ -138,7 +144,7 @@ export const WebPlayback: VFC<Props> = ({ token, trackUri }) => {
 
 				<div className="hidden md:flex w-full justify-end pr-2">
 					<div className="flex items-center gap-x-2 w-[120px]">
-						<Slider value={0.5} onChange={value => playerRef.current?.setVolume(value)} />
+						<Slider value={0.5} onChange={(value) => playerRef.current?.setVolume(value)} />
 					</div>
 				</div>
 			</div>
