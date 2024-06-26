@@ -1,15 +1,16 @@
 "use client";
 
-import {Song} from "@/types";
+import {SpotifyAlbum} from "@/types";
 import AlbumCoverSpotify from "@/components/AlbumCoverSpotify";
+import Loading from "@/app/Search/loading";
 
 interface PageContentProps {
-	songs: Song[];
+	songs: SpotifyAlbum[];
 }
 
 const ClassicalPieceTable: React.FC<PageContentProps> = ({songs = []}) => {
 	if (songs.length === 0) {
-		return <div className="mt-4 text-neutral-400">No songs available.</div>;
+		return <Loading></Loading>
 	}
 
 	return (

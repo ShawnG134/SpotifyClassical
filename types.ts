@@ -1,4 +1,4 @@
-export interface Song {
+export interface SpotifyAlbum {
 	id: string;
 	user_id: string;
 	author: string;

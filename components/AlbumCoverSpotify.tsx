@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 
-import {Song} from "@/types";
+import {SpotifyAlbum} from "@/types";
 
 interface SongItemProps {
-	data: Song;
+	data: SpotifyAlbum;
 	// onClick: (id: string) => void
 }
 

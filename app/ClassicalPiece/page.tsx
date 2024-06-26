@@ -1,12 +1,12 @@
 "use client";
 import React, {useEffect, useState} from "react";
-import {Song} from "@/types";
+import {SpotifyAlbum} from "@/types";
 import Cookies from "js-cookie";
 import {getClassicalFromSpotify} from "@/action/getClassicalFromSpotify";
 import ClassicalPieceTable from "@/components/ClassicalPieceTable";
 
 const Page = () => {
-	const [classicalPieceName, setClassicalPieceName] = useState<Song[]>([]);
+	const [classicalPieceName, setClassicalPieceName] = useState<SpotifyAlbum[]>([]);
 	const accessToken = Cookies.get("spotify_access_token");
 	useEffect(() => {
 		async function fetchData() {
