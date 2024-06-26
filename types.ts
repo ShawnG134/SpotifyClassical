@@ -5,6 +5,8 @@ export interface SpotifyAlbum {
 	title: string;
 	song_path: string;
 	image_path: string;
+	year: string;
+	popularity: string;
 }
 
 export type ClassicalPiece = {
@@ -20,4 +22,5 @@ export interface Song {
 	title: string
 	song_path: string
 	image_path: string
+	album: string
 }

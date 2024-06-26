@@ -11,8 +11,9 @@ import {
 	PieceList,
 	StyledComposerContainer,
 	Title,
-} from "@/app/SideBarComposer/Container";
+} from "@/app/PiecesByCertainComposer/Container";
 import { useRouter, useSearchParams } from "next/navigation";
+import imageSrc from "/Users/seangong/Desktop/Classical/utils/ComposerPicture/ClaudeDebussy.png";
 
 const TopRightImage = styled.img`
     width: 150px;
@@ -62,6 +63,7 @@ const DisplayComposer = () => {
 				<>
 					<TitleContainer>
 						<Title>Pieces by {composerName}</Title>
+						<TopRightImage src={imageSrc.src} alt="Top Right Image" />
 					</TitleContainer>
 					<ButtonContainer>
 						<FilterButton onClick={() => filterPieces("Concerto")}>

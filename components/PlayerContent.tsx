@@ -1,4 +1,4 @@
-import { VFC, useState, useEffect, useRef } from "react";
+import { VFC, useState, useEffect, useRef, useCallback, useReducer } from "react";
 import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 import Slider from "@/components/Slider";
@@ -8,73 +8,107 @@ type Props = {
 	trackUri: string;
 };
 
+type State = {
+	is_paused: boolean;
+	is_active: boolean;
+	current_track: Spotify.Track | null;
+};
+
+type Action =
+	| { type: "SET_PAUSED"; payload: boolean }
+	| { type: "SET_ACTIVE"; payload: boolean }
+	| { type: "SET_TRACK"; payload: Spotify.Track | null };
+
+const initialState: State = {
+	is_paused: false,
+	is_active: false,
+	current_track: null,
+};
+
+function reducer(state: State, action: Action): State {
+	switch (action.type) {
+		case "SET_PAUSED":
+			return { ...state, is_paused: action.payload };
+		case "SET_ACTIVE":
+			return { ...state, is_active: action.payload };
+		case "SET_TRACK":
+			return { ...state, current_track: action.payload };
+		default:
+			return state;
+	}
+}
+
 export const WebPlayback: VFC<Props> = ({ token, trackUri }) => {
-	const [is_paused, setPaused] = useState<boolean>(false);
-	const [is_active, setActive] = useState<boolean>(false);
-	const [current_track, setTrack] = useState<Spotify.Track | null>(null);
+	const [state, dispatch] = useReducer(reducer, initialState);
 	const playerRef = useRef<Spotify.Player | null>(null);
 	const deviceIdRef = useRef<string | null>(null);
 
-	const Icon = is_paused ? BsPlayFill : BsPauseFill;
+	const Icon = state.is_paused ? BsPlayFill : BsPauseFill;
+
+	const initializePlayer = useCallback(() => {
+		if (playerRef.current) return;
+
+		const player = new window.Spotify.Player({
+			name: "Web Playback SDK",
+			getOAuthToken: (cb) => {
+				cb(token);
+			},
+			volume: 0.5,
+		});
+
+		playerRef.current = player;
+
+		player.addListener("ready", ({ device_id }) => {
+			deviceIdRef.current = device_id;
+			dispatch({ type: "SET_ACTIVE", payload: true });
+			console.log("Ready with Device ID", device_id);
+		});
+
+		player.addListener("not_ready", ({ device_id }) => {
+			console.log("Device ID has gone offline", device_id);
+			dispatch({ type: "SET_ACTIVE", payload: false });
+		});
+
+		player.addListener("player_state_changed", (state) => {
+			if (!state) return;
+			dispatch({ type: "SET_TRACK", payload: state.track_window.current_track });
+			dispatch({ type: "SET_PAUSED", payload: state.paused });
+		});
+
+		player.connect();
+	}, [token]);
 
 	useEffect(() => {
-		const script = document.createElement("script");
-		script.src = "https://sdk.scdn.co/spotify-player.js";
-		script.async = true;
+		if (!document.getElementById('spotify-player-script')) {
+			const script = document.createElement("script");
+			script.id = 'spotify-player-script';
+			script.src = "https://sdk.scdn.co/spotify-player.js";
+			script.async = true;
 
-		document.body.appendChild(script);
+			document.body.appendChild(script);
 
-		const initializePlayer = () => {
-			const player = new window.Spotify.Player({
-				name: "Web Playback SDK",
-				getOAuthToken: (cb) => {
-					cb(token);
-				},
-				volume: 0.5,
-			});
-
-			playerRef.current = player;
-
-			player.addListener("ready", ({ device_id }) => {
-				deviceIdRef.current = device_id;
-				setActive(true);
-				console.log("Ready with Device ID", device_id);
-			});
-
-			player.addListener("not_ready", ({ device_id }) => {
-				console.log("Device ID has gone offline", device_id);
-				setActive(false);
-			});
-
-			player.addListener("player_state_changed", (state) => {
-				if (!state) return;
-				setTrack(state.track_window.current_track);
-				setPaused(state.paused);
-			});
-
-			player.connect();
-		};
-
-		if (window.Spotify) {
-			initializePlayer();
+			script.onload = () => {
+				initializePlayer();
+			};
 		} else {
-			window.onSpotifyWebPlaybackSDKReady = initializePlayer;
+			initializePlayer();
 		}
 
 		return () => {
 			if (playerRef.current) {
 				playerRef.current.disconnect();
+				playerRef.current = null;
 			}
 		};
-	}, [token]);
+	}, [initializePlayer]);
 
 	useEffect(() => {
-		if (is_active && deviceIdRef.current) {
+		if (state.is_active && deviceIdRef.current) {
 			playTrack(trackUri);
 		}
-	}, [is_active, trackUri]);
+	}, [state.is_active, trackUri]);
 
-	const playTrack = (uri: string) => {
+	const playTrack = useCallback((uri: string) => {
 		if (deviceIdRef.current) {
 			fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceIdRef.current}`, {
 				method: "PUT",
@@ -85,7 +119,13 @@ export const WebPlayback: VFC<Props> = ({ token, trackUri }) => {
 				},
 			});
 		}
-	};
+	}, [token]);
+
+	useEffect(() => {
+		if (state.current_track?.uri !== trackUri) {
+			playTrack(trackUri);
+		}
+	}, [trackUri, state.current_track, playTrack]);
 
 	if (!playerRef.current) {
 		return (
@@ -95,7 +135,7 @@ export const WebPlayback: VFC<Props> = ({ token, trackUri }) => {
 				</div>
 			</div>
 		);
-	} else if (!is_active) {
+	} else if (!state.is_active) {
 		return (
 			<div className="container">
 				<div className="main-wrapper">
@@ -109,7 +149,7 @@ export const WebPlayback: VFC<Props> = ({ token, trackUri }) => {
 				<div className="flex w-full justify-start">
 					<div className="flex items-center gap-x-4">
 						<div>
-							<div className="now-playing__name">{current_track?.name}</div>
+							<div className="now-playing__name">{state.current_track?.name}</div>
 						</div>
 					</div>
 				</div>
@@ -140,12 +180,6 @@ export const WebPlayback: VFC<Props> = ({ token, trackUri }) => {
 						size={30}
 						className="text-neutral-400 cursor-pointer hover:text-white transition"
 					/>
-				</div>
-
-				<div className="hidden md:flex w-full justify-end pr-2">
-					<div className="flex items-center gap-x-2 w-[120px]">
-						<Slider value={0.5} onChange={(value) => playerRef.current?.setVolume(value)} />
-					</div>
 				</div>
 			</div>
 		);

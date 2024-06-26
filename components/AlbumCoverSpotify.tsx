@@ -57,7 +57,7 @@ const AlbumCoverSpotify: React.FC<SongItemProps> = ({data}) => {
 				/>
 			</div>
 			<div className="flex flex-col items-start w-full pt-4 gap-y-1">
-				<p className="font-semibold truncate w-full">{data.title}</p>
+				<p className="font-semibold truncate w-full">{data.author}</p>
 				<p
 					className="
             text-neutral-400
@@ -67,7 +67,7 @@ const AlbumCoverSpotify: React.FC<SongItemProps> = ({data}) => {
             truncate
           "
 				>
-					By {data.author}
+					{data.year}
 				</p>
 			</div>
 			<div

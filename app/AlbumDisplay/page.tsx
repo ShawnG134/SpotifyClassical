@@ -22,7 +22,7 @@ const Page = () => {
 				const pieceList = await getSongsFromSpotifyAlbum(id, accessToken);
 				if (pieceList.length > 0) {
 					setAlbumDetails({
-						name: pieceList[0].title,
+						name: pieceList[0].album,
 						image: pieceList[0].image_path
 					});
 				}

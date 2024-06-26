@@ -5,7 +5,7 @@ import {useRouter} from "next/navigation";
 const Library = () => {
 	const router = useRouter();
 	const handleClick = (composer: string) => {
-		router.push(`/SideBarComposer?name=${encodeURIComponent(composer)}`);
+		router.push(`/PiecesByCertainComposer?name=${encodeURIComponent(composer)}`);
 	};
 
 	return (

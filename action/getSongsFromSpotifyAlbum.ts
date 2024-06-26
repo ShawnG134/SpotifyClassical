@@ -1,5 +1,7 @@
-import {Song, SpotifyAlbum} from "@/types";
+import { Song, SpotifyAlbum } from "@/types";
 import axios from "axios";
+import {famousComposers} from "@/utils/constants";
+
 
 export async function getSongsFromSpotifyAlbum(
 	albumId: string,
@@ -15,14 +17,20 @@ export async function getSongsFromSpotifyAlbum(
 		const response = await axios.get(url, { headers });
 		const album = response.data;
 
-		const songs = album.tracks.items.map((track: any) => ({
-			id: track.id,
-			user_id: "",
-			author: track.artists.map((artist: any) => artist.name).join(", "),
-			title: track.name,
-			song_path: track.external_urls.spotify,
-			image_path: album.images[0]?.url || "",
-		}));
+		const songs = album.tracks.items.map((track: any) => {
+			const artistsString = track.artists.map((artist: any) => artist.name).join(", ");
+			const artistsArray = artistsString.split(", ").filter((artist: string) => !famousComposers.includes(artist));
+
+			return {
+				id: track.id,
+				user_id: "",
+				author: artistsArray,
+				title: track.name,
+				album: album.name,
+				song_path: track.external_urls.spotify,
+				image_path: album.images[0]?.url || "",
+			};
+		});
 
 		return songs;
 	} catch (error) {
