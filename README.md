@@ -1,6 +1,15 @@
 # Spotify Classical Player
 
-<img width="1159" alt="image" src="https://github.com/ShawnG134/SpotifyClassical/assets/168505455/7a2a364e-3b21-4110-88c7-6080856050a0">
+## Quick Demo
+You can view all the classical works by a specific composer. Here, it shows a list of concertos by Beethoven.
+<img width="1259" alt="image" src="https://github.com/ShawnG134/SpotifyClassical/assets/168505455/856c6284-96b9-4cc0-aa16-8ed85078afc9">
+When you click on a particular classical composition, you can view all the versions available on Spotify, including the interpreter and the release year.
+<img width="1259" alt="image" src="https://github.com/ShawnG134/SpotifyClassical/assets/168505455/bf17a7b9-1836-4689-9fd1-bd3654cfbad3">
+You can easily navigate to the album and play any pieces.
+<img width="1259" alt="image" src="https://github.com/ShawnG134/SpotifyClassical/assets/168505455/5f9f12fc-8d67-4737-b969-c0f861b1e8e5">
+
+
+
 
 ## Motivation
 
