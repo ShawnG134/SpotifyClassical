@@ -14,8 +14,7 @@ You can easily navigate to the album and play any pieces.
 ## Motivation
 
 I was deeply intrigued by the design and functionality of Apple Classical. Specifically, as a fan of Gabriel Fauré,
-whose piano works I highly recommend, I often found it difficult to locate his recordings. (Not many people appreciate
-his piano works). Apple Music elegantly resolves this issue, allowing me to enjoy numerous different versions of his
+whose piano works I highly recommend, I often found it difficult to locate his recordings. Apple Music elegantly resolves this issue, allowing me to enjoy numerous different versions of his
 compositions.
 
 Unfortunately, Spotify does not natively support a similar feature. As a result, I decided to develop my own Spotify
