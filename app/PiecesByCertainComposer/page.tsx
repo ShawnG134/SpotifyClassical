@@ -13,11 +13,11 @@ import {
 	Title,
 } from "@/app/PiecesByCertainComposer/Container";
 import { useRouter, useSearchParams } from "next/navigation";
-import imageSrc from "/Users/seangong/Desktop/Classical/utils/ComposerPicture/ClaudeDebussy.png";
+import composerImages from "@/utils/constants";
 
 const TopRightImage = styled.img`
     width: 150px;
-    height: auto;
+    height: 175px;
     margin-left: 50px;
 `;
 
@@ -57,13 +57,16 @@ const DisplayComposer = () => {
 		setCurrentPiece(filteredPieces);
 	};
 
+	// @ts-ignore
+const composerImageSrc = composerImages[composerName] || "";
+
 	return (
 		<StyledComposerContainer>
 			{composerName ? (
 				<>
 					<TitleContainer>
 						<Title>Pieces by {composerName}</Title>
-						<TopRightImage src={imageSrc.src} alt="Top Right Image" />
+						{composerImageSrc && <TopRightImage src={composerImageSrc} alt={`Image of ${composerName}`} />}
 					</TitleContainer>
 					<ButtonContainer>
 						<FilterButton onClick={() => filterPieces("Concerto")}>
@@ -91,7 +94,7 @@ const DisplayComposer = () => {
 					</PieceList>
 				</>
 			) : (
-				<Loading/>
+				<Loading />
 			)}
 		</StyledComposerContainer>
 	);

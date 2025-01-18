@@ -40,7 +40,7 @@ export async function getClassicalAlbumFromSpotify(
 			};
 		});
 
-		const filteredAlbums = albums.filter(album => {
+		const filteredAlbums = albums.filter((album: { title: string; }) => {
 			//const distance = modifiedLevenshtein(workTitle.toLowerCase(), album.title.toLowerCase());
 			const similarity =calculateSimilarity(workTitle.toLowerCase(), album.title.toLowerCase());
 			return similarity > 0.1;

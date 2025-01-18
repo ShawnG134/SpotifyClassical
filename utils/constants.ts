@@ -30,3 +30,14 @@ export const famousComposers: string[] = [
 	"Hector Berlioz",
 	"Gabriel Fauré"
 ];
+
+const composerImages = {
+	"Claude Debussy": "/images/ClaudeDebussy.png",
+	"Frédéric Chopin": "/images/FrédéricChopin.png",
+	"Johannes Brahms": "/images/JohannesBrahms.png",
+	"Johann Sebastian Bach": "/images/JohannSebastianBach.png",
+	"Ludwig van Beethoven": "/images/LudwigvanBeethoven.png",
+};
+
+
+export default composerImages;
