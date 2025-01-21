@@ -2,7 +2,8 @@ import {NextApiRequest, NextApiResponse} from "next";
 import querystring from "querystring";
 
 const client_id = process.env.SPOTIFY_CLIENT_ID;
-const redirect_uri = "http://localhost:3000";
+const redirect_uri = process.env.NEXT_PUBLIC_REDIRECT_URI;
+
 
 const scope = [
 	"user-read-email",
