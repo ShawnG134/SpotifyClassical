@@ -1,4 +1,4 @@
-import { Song } from "@/types";
+import {Song} from "@/types";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -15,16 +15,15 @@ export async function getSongByID(
 		const response = await axios.get(url, { headers });
 		const track = response.data;
 
-		const song: Song = {
+		return {
 			id: track.id,
 			user_id: track.uri,
 			author: track.artists.map((artist: any) => artist.name).join(", "),
 			title: track.name,
 			song_path: track.external_urls.spotify,
 			image_path: track.album.images[0]?.url || "",
+			album: track.album,
 		};
-
-		return song;
 	} catch (error) {
 		console.error("Error fetching track from Spotify:", error);
 		throw new Error("Failed to fetch track from Spotify");
