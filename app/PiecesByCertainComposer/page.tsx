@@ -1,7 +1,7 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { ClassicalPiece } from "@/types";
-import { getClassicalPiecesByComposer } from "@/action/getClassicalPieceByComposer";
+import React, {useEffect, useState} from "react";
+import {ClassicalPiece} from "@/types";
+import {getClassicalPiecesByComposer} from "@/action/getClassicalPieceByComposer";
 import Loading from "@/app/Search/loading";
 import styled from "styled-components";
 import {
@@ -12,14 +12,15 @@ import {
 	StyledComposerContainer,
 	Title,
 } from "@/app/PiecesByCertainComposer/Container";
-import { useRouter, useSearchParams } from "next/navigation";
+import {useRouter, useSearchParams} from "next/navigation";
 import composerImages from "@/utils/constants";
 
 const TopRightImage = styled.img`
     width: 150px;
-    height: 175px;
+    height: auto;
     margin-left: 50px;
 `;
+
 
 const TitleContainer = styled.div`
     display: flex;
@@ -43,6 +44,7 @@ const DisplayComposer = () => {
 				setCurrentPiece(pieces);
 			}
 		}
+
 		fetchData();
 	}, [searchParams]);
 
@@ -58,7 +60,7 @@ const DisplayComposer = () => {
 	};
 
 	// @ts-ignore
-const composerImageSrc = composerImages[composerName] || "";
+	const composerImageSrc = composerImages[composerName] || "";
 
 	return (
 		<StyledComposerContainer>
@@ -66,7 +68,7 @@ const composerImageSrc = composerImages[composerName] || "";
 				<>
 					<TitleContainer>
 						<Title>Pieces by {composerName}</Title>
-						{composerImageSrc && <TopRightImage src={composerImageSrc} alt={`Image of ${composerName}`} />}
+						{composerImageSrc && <TopRightImage src={composerImageSrc} alt={`Image of ${composerName}`}/>}
 					</TitleContainer>
 					<ButtonContainer>
 						<FilterButton onClick={() => filterPieces("Concerto")}>
@@ -94,7 +96,7 @@ const composerImageSrc = composerImages[composerName] || "";
 					</PieceList>
 				</>
 			) : (
-				<Loading />
+				<Loading/>
 			)}
 		</StyledComposerContainer>
 	);
