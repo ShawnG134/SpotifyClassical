@@ -1,8 +1,0 @@
-{
-  "labels":[
-    "SAME",
-    "DIFFERENT"
-  ],
-  "threshold":0.0,
-  "positive_label":null
-}
